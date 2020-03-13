@@ -43,7 +43,8 @@ namespace Paint
         List<SaveData> lineSaveData;
         List<Rectangle> recSaveData;
         List<Rectangle> circleSaveSData;
-        List<Point[]> curveSaveData;
+        List<CurveData> curveSaveData;
+        List<DrawingData> drawingSaveData;
 
         public Form1()
         {
@@ -61,7 +62,8 @@ namespace Paint
             lineSaveData = new List<SaveData>();
             recSaveData = new List<Rectangle>();
             circleSaveSData = new List<Rectangle>();
-            curveSaveData = new List<Point[]>();
+            curveSaveData = new List<CurveData>();
+            drawingSaveData = new List<DrawingData>();
         }
         
         private void DrawAll()
@@ -73,9 +75,12 @@ namespace Paint
                 g.DrawLine(new Pen(Color.Black), sd.startPoint, sd.endPoint);
             }
 
-            foreach (Point[] pt in curveSaveData)
+            foreach (CurveData pt in curveSaveData)
             {
-                g.DrawCurve(new Pen(Color.Black), pt);
+                if (pt.point != null)
+                {
+                    g.DrawCurve(new Pen(Color.Black), pt.point);
+                }
             }
 
             foreach (Rectangle rec in recSaveData)
@@ -86,6 +91,11 @@ namespace Paint
             foreach (Rectangle rec in circleSaveSData)
             {
                 g.DrawEllipse(new Pen(Color.Black), rec);
+            }
+
+            foreach (DrawingData dd in drawingSaveData)
+            {
+                g.DrawEllipse(dd.pen, dd.point.X, dd.point.Y, dd.pen.Width, dd.pen.Width);
             }
 
             pictureBox1.Image = picBmp;
@@ -119,15 +129,14 @@ namespace Paint
                 {
                     case DrawMode.penMode:
                     case DrawMode.eraserMode:
-                        //g.DrawEllipse(p, curPoint.X, curPoint.Y, p.Width, p.Width); //타원 그리기
-
-                        //pictureBox1.Image = picBmp;
-
+                        g.DrawEllipse(p, CurPos.X, CurPos.Y, p.Width, p.Width); //타원 그리기
+                        DrawingData dd = new DrawingData();
+                        dd.pen = p;
+                        dd.point = CurPos;
+                        drawingSaveData.Add(dd);
                         //DrawAll(); 
-
-                       // p.Dispose();
-                        //break;
-
+                        // p.Dispose();
+                        break;
                     case DrawMode.line: //선 그리기
                         if (e.Button == MouseButtons.Left)
                         {
@@ -135,6 +144,7 @@ namespace Paint
                             g.DrawLine(new Pen(Color.Black), ClickPos, CurPos);
                         }
                         break;
+
                     case DrawMode.curve: //곡선 그리기
                         if (e.Button == MouseButtons.Left)
                         {
@@ -142,7 +152,8 @@ namespace Paint
                             g.DrawLine(new Pen(Color.Black), ClickPos, CurPos);
                         }
                         break;
-                    case DrawMode.rect:
+
+                    case DrawMode.rect: //직사각형 그리기
                         if (e.Button == MouseButtons.Left)
                         {
                             rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X, CurPos.Y);
@@ -150,7 +161,8 @@ namespace Paint
                             g.DrawRectangle(new Pen(Color.Black), rec);
                         }
                         break;
-                    case DrawMode.circle:
+
+                    case DrawMode.circle: //타원형 그리기
                         if (e.Button == MouseButtons.Left)
                         {
                             rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X, CurPos.Y);
@@ -168,18 +180,22 @@ namespace Paint
 
             ClickPos = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
             kinowPoint = ClickPos;
-         
+            
             if (curveFlag == true && drawMode == DrawMode.curve) //곡선
             {
                 Point po = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
+                int count = curveSaveData.Count-1;
                 Point[] p =
                 {
-                    curveSaveData[0].startPoint,
+                    curveSaveData[count].startPoint,
                     po,
-                    curveSaveData[0].endPoint
+                    curveSaveData[count].endPoint,
                 };
-                //curveSaveData.lastr
-                curveSaveData.Clear();
+
+                CurveData cd = new CurveData();
+                cd.point = p;
+                curveSaveData.Add(cd);
+                //curveSaveData.RemoveAt(count);
                 DrawAll();
                 g.DrawCurve(new Pen(Color.Black), p);
                 curveFlag = false;
@@ -193,23 +209,32 @@ namespace Paint
 
             switch (drawMode)
             {
+                case DrawMode.penMode:
+                case DrawMode.eraserMode:
+                    DrawingData dd = new DrawingData();
+                    dd.pen = p;
+                    dd.point = CurPos;
+                    drawingSaveData.Add(dd);
+                    break;
+
                 case DrawMode.line:
                     SaveData sd = new SaveData();
                     sd.startPoint = ClickPos;
                     sd.endPoint = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
                     lineSaveData.Add(sd);
                     break;
-                case DrawMode.curve:
-                    Point[] pt = 
-                    {
-                        ClickPos,
 
-                    };
-                    curveSaveData.Add();
+                case DrawMode.curve:
+                    CurveData cd = new CurveData();
+                    cd.startPoint = ClickPos;
+                    cd.endPoint = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
+                    curveSaveData.Add(cd);
                     break;
+
                 case DrawMode.rect:
                     recSaveData.Add(rec);
                     break;
+
                 case DrawMode.circle:
                     circleSaveSData.Add(rec);
                     break;
@@ -291,9 +316,13 @@ namespace Paint
         {
             //전체 지우기
             g.Clear(Color.White);
+            
             lineSaveData.Clear();
             recSaveData.Clear();
             circleSaveSData.Clear();
+            curveSaveData.Clear();
+            drawingSaveData.Clear();
+
             pictureBox1.Image = picBmp;
         }
 
@@ -311,8 +340,11 @@ namespace Paint
 
         private void EditSizeMenu_Click(object sender, EventArgs e)
         {
-            EditSizeForm frm = new EditSizeForm();
-            frm.ShowDialog();
+            EditSizeForm frm = new EditSizeForm(pictureBox1);
+            if (frm.ShowDialog() == DialogResult.OK)
+            { 
+                //pictureBox1.Image.Width = frm.
+            }
         }
     }
 }

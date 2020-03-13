@@ -45,7 +45,6 @@
             this.btnCurve = new DevExpress.XtraEditors.SimpleButton();
             this.btnCircle = new DevExpress.XtraEditors.SimpleButton();
             this.btnRec = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton6 = new DevExpress.XtraEditors.SimpleButton();
             this.btnClear = new DevExpress.XtraEditors.SimpleButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
@@ -162,7 +161,6 @@
             this.flowLayoutPanel1.Controls.Add(this.btnCurve);
             this.flowLayoutPanel1.Controls.Add(this.btnCircle);
             this.flowLayoutPanel1.Controls.Add(this.btnRec);
-            this.flowLayoutPanel1.Controls.Add(this.simpleButton6);
             this.flowLayoutPanel1.Controls.Add(this.btnClear);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -206,17 +204,9 @@
             this.btnRec.Text = "직사각형";
             this.btnRec.Click += new System.EventHandler(this.btnRec_Click);
             // 
-            // simpleButton6
-            // 
-            this.simpleButton6.Location = new System.Drawing.Point(259, 3);
-            this.simpleButton6.Name = "simpleButton6";
-            this.simpleButton6.Size = new System.Drawing.Size(84, 22);
-            this.simpleButton6.TabIndex = 6;
-            this.simpleButton6.Text = "둥근 직사각형";
-            // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(349, 3);
+            this.btnClear.Location = new System.Drawing.Point(259, 3);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(74, 22);
             this.btnClear.TabIndex = 7;
@@ -269,7 +259,6 @@
         private DevExpress.XtraEditors.SimpleButton btnCurve;
         private DevExpress.XtraEditors.SimpleButton btnCircle;
         private DevExpress.XtraEditors.SimpleButton btnRec;
-        private DevExpress.XtraEditors.SimpleButton simpleButton6;
         private System.Windows.Forms.ToolStripMenuItem EditSizeMenu;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem 브러쉬ToolStripMenuItem;

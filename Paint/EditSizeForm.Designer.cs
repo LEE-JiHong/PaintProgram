@@ -29,23 +29,23 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.rdoPer = new System.Windows.Forms.RadioButton();
+            this.rdoPix = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
-            this.textEdit2 = new DevExpress.XtraEditors.TextEdit();
+            this.txtwidth = new DevExpress.XtraEditors.TextEdit();
+            this.txtheight = new DevExpress.XtraEditors.TextEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.btnOK = new DevExpress.XtraEditors.SimpleButton();
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtwidth.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtheight.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.rdoPix);
+            this.groupBox1.Controls.Add(this.rdoPer);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 66);
@@ -53,27 +53,27 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "크기 조정";
             // 
-            // radioButton1
+            // rdoPer
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(19, 33);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(59, 16);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "백분율";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rdoPer.AutoSize = true;
+            this.rdoPer.Location = new System.Drawing.Point(19, 33);
+            this.rdoPer.Name = "rdoPer";
+            this.rdoPer.Size = new System.Drawing.Size(59, 16);
+            this.rdoPer.TabIndex = 0;
+            this.rdoPer.TabStop = true;
+            this.rdoPer.Text = "백분율";
+            this.rdoPer.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rdoPix
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(130, 33);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(47, 16);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "픽셀";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rdoPix.AutoSize = true;
+            this.rdoPix.Location = new System.Drawing.Point(130, 33);
+            this.rdoPix.Name = "rdoPix";
+            this.rdoPix.Size = new System.Drawing.Size(47, 16);
+            this.rdoPix.TabIndex = 1;
+            this.rdoPix.TabStop = true;
+            this.rdoPix.Text = "픽셀";
+            this.rdoPix.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -84,19 +84,19 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "가로:";
             // 
-            // textEdit1
+            // txtwidth
             // 
-            this.textEdit1.Location = new System.Drawing.Point(79, 100);
-            this.textEdit1.Name = "textEdit1";
-            this.textEdit1.Size = new System.Drawing.Size(123, 20);
-            this.textEdit1.TabIndex = 2;
+            this.txtwidth.Location = new System.Drawing.Point(79, 100);
+            this.txtwidth.Name = "txtwidth";
+            this.txtwidth.Size = new System.Drawing.Size(123, 20);
+            this.txtwidth.TabIndex = 2;
             // 
-            // textEdit2
+            // txtheight
             // 
-            this.textEdit2.Location = new System.Drawing.Point(79, 135);
-            this.textEdit2.Name = "textEdit2";
-            this.textEdit2.Size = new System.Drawing.Size(123, 20);
-            this.textEdit2.TabIndex = 4;
+            this.txtheight.Location = new System.Drawing.Point(79, 135);
+            this.txtheight.Name = "txtheight";
+            this.txtheight.Size = new System.Drawing.Size(123, 20);
+            this.txtheight.TabIndex = 4;
             // 
             // label2
             // 
@@ -116,6 +116,7 @@
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 5;
             this.btnOK.Text = "확인";
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
@@ -135,18 +136,19 @@
             this.ClientSize = new System.Drawing.Size(227, 208);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.textEdit2);
+            this.Controls.Add(this.txtheight);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textEdit1);
+            this.Controls.Add(this.txtwidth);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Name = "EditSizeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "크기 조정";
+            this.Load += new System.EventHandler(this.EditSizeForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtwidth.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtheight.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,11 +157,11 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rdoPix;
+        private System.Windows.Forms.RadioButton rdoPer;
         private System.Windows.Forms.Label label1;
-        private DevExpress.XtraEditors.TextEdit textEdit1;
-        private DevExpress.XtraEditors.TextEdit textEdit2;
+        private DevExpress.XtraEditors.TextEdit txtwidth;
+        private DevExpress.XtraEditors.TextEdit txtheight;
         private System.Windows.Forms.Label label2;
         private DevExpress.XtraEditors.SimpleButton btnOK;
         private DevExpress.XtraEditors.SimpleButton btnCancel;
