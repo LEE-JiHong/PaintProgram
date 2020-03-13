@@ -14,8 +14,15 @@ namespace Paint
     {
         PictureBox pic;
 
-        
+        public int width
+        {
+            get { return Convert.ToInt32(txtwidth.Text); }
+        }
 
+        public int height
+        {
+            get { return Convert.ToInt32(txtheight.Text); }
+        }
         public EditSizeForm(PictureBox pic)
         {
             InitializeComponent();
@@ -30,8 +37,8 @@ namespace Paint
         private void EditSizeForm_Load(object sender, EventArgs e)
         {
             rdoPix.Checked = true;
-            txtwidth.Text =  pic.Image.Width.ToString();
-            txtheight.Text = pic.Image.Height.ToString();
+            txtwidth.Text =  pic.Width.ToString();
+            txtheight.Text = pic.Height.ToString();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

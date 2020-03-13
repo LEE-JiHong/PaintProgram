@@ -205,8 +205,7 @@ namespace Paint
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             flag = false;
-            curveFlag = true;
-
+            
             switch (drawMode)
             {
                 case DrawMode.penMode:
@@ -225,6 +224,7 @@ namespace Paint
                     break;
 
                 case DrawMode.curve:
+                    curveFlag = true;
                     CurveData cd = new CurveData();
                     cd.startPoint = ClickPos;
                     cd.endPoint = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
@@ -342,8 +342,10 @@ namespace Paint
         {
             EditSizeForm frm = new EditSizeForm(pictureBox1);
             if (frm.ShowDialog() == DialogResult.OK)
-            { 
-                //pictureBox1.Image.Width = frm.
+            {
+                //pictureBox1.Size = new Size(frm.Width, frm.Height);
+                pictureBox1.Width = frm.width;
+                pictureBox1.Height = frm.hei;
             }
         }
     }
