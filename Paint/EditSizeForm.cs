@@ -39,11 +39,28 @@ namespace Paint
             rdoPix.Checked = true;
             txtwidth.Text =  pic.Width.ToString();
             txtheight.Text = pic.Height.ToString();
+            btnOK.TabIndex = 0;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void txtheight_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.btnOK_Click(sender, e);
+            }
+        }
+
+        private void btnOK_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                this.btnOK_Click(sender, e);
+            }
         }
     }
 }

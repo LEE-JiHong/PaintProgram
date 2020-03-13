@@ -97,6 +97,7 @@
             this.txtheight.Name = "txtheight";
             this.txtheight.Size = new System.Drawing.Size(123, 20);
             this.txtheight.TabIndex = 4;
+            this.txtheight.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtheight_KeyDown);
             // 
             // label2
             // 
@@ -117,6 +118,7 @@
             this.btnOK.TabIndex = 5;
             this.btnOK.Text = "확인";
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            this.btnOK.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.btnOK_KeyPress);
             // 
             // btnCancel
             // 

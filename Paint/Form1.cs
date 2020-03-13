@@ -72,25 +72,25 @@ namespace Paint
 
             foreach (SaveData sd in lineSaveData)
             {
-                g.DrawLine(new Pen(Color.Black), sd.startPoint, sd.endPoint);
+                g.DrawLine(new Pen(Color.Aquamarine), sd.startPoint, sd.endPoint);
             }
 
             foreach (CurveData pt in curveSaveData)
             {
                 if (pt.point != null)
                 {
-                    g.DrawCurve(new Pen(Color.Black), pt.point);
+                    g.DrawCurve(new Pen(Color.Aquamarine), pt.point);
                 }
             }
 
             foreach (Rectangle rec in recSaveData)
             {
-                g.DrawRectangle(new Pen(Color.Black), rec);
+                g.DrawRectangle(new Pen(Color.Aquamarine), rec);
             }
 
             foreach (Rectangle rec in circleSaveSData)
             {
-                g.DrawEllipse(new Pen(Color.Black), rec);
+                g.DrawEllipse(new Pen(Color.Aquamarine), rec);
             }
 
             foreach (DrawingData dd in drawingSaveData)
@@ -113,7 +113,7 @@ namespace Paint
             }
             else
             {
-                color = Color.Black;
+                color = Color.Aquamarine;
             }
 
             pictureBox1.Image = picBmp;
@@ -141,7 +141,7 @@ namespace Paint
                         if (e.Button == MouseButtons.Left)
                         {
                             DrawAll();
-                            g.DrawLine(new Pen(Color.Black), ClickPos, CurPos);
+                            g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
                         }
                         break;
 
@@ -149,7 +149,7 @@ namespace Paint
                         if (e.Button == MouseButtons.Left)
                         {
                             DrawAll();
-                            g.DrawLine(new Pen(Color.Black), ClickPos, CurPos);
+                            g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
                         }
                         break;
 
@@ -158,7 +158,7 @@ namespace Paint
                         {
                             rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X, CurPos.Y);
                             DrawAll();
-                            g.DrawRectangle(new Pen(Color.Black), rec);
+                            g.DrawRectangle(new Pen(Color.Aquamarine), rec);
                         }
                         break;
 
@@ -167,7 +167,7 @@ namespace Paint
                         {
                             rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X, CurPos.Y);
                             DrawAll();
-                            g.DrawEllipse(new Pen(Color.Black), rec);
+                            g.DrawEllipse(new Pen(Color.Aquamarine), rec);
                         }
                         break;
                 }
@@ -197,7 +197,7 @@ namespace Paint
                 curveSaveData.Add(cd);
                 //curveSaveData.RemoveAt(count);
                 DrawAll();
-                g.DrawCurve(new Pen(Color.Black), p);
+                g.DrawCurve(new Pen(Color.Aquamarine), p);
                 curveFlag = false;
             }
         }
@@ -205,7 +205,8 @@ namespace Paint
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             flag = false;
-            
+            curveFlag = true;
+
             switch (drawMode)
             {
                 case DrawMode.penMode:
@@ -224,7 +225,6 @@ namespace Paint
                     break;
 
                 case DrawMode.curve:
-                    curveFlag = true;
                     CurveData cd = new CurveData();
                     cd.startPoint = ClickPos;
                     cd.endPoint = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
@@ -343,10 +343,22 @@ namespace Paint
             EditSizeForm frm = new EditSizeForm(pictureBox1);
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                //pictureBox1.Size = new Size(frm.Width, frm.Height);
                 pictureBox1.Width = frm.width;
-                pictureBox1.Height = frm.hei;
+                pictureBox1.Height = frm.height;
             }
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            Point[] poin = new Point[]
+            {
+                new Point(175, 10),
+                new Point(10,165),
+                new Point(340, 165),
+                new Point(200, 400),
+            };
+
+            g.DrawPolygon(new Pen(Color.Red), poin);
         }
     }
 }
