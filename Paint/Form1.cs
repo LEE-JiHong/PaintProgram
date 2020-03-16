@@ -453,7 +453,7 @@ namespace Paint
         private void btnCloudMarkup_Click(object sender, EventArgs e)
         {
             //클라우드 마크 만들기
-            Pen pp = new Pen(Color.Red,3);
+            Pen pp = new Pen(Color.MediumAquamarine,3);
 
             Rectangle rectangle = new Rectangle(106, 51, 300, 300);
             //g.DrawRectangle(new Pen(Color.Aquamarine), rectangle); //사각형은 그려주지 않음
@@ -514,7 +514,6 @@ namespace Paint
                 g.DrawCurve(pp, p3);
                 g.DrawCurve(pp, p4);
             }
-
             pictureBox1.Image = picBmp;
         }
     }
