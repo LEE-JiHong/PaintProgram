@@ -46,8 +46,10 @@
             this.btnCircle = new DevExpress.XtraEditors.SimpleButton();
             this.btnRec = new DevExpress.XtraEditors.SimpleButton();
             this.btnClear = new DevExpress.XtraEditors.SimpleButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnAnyPoint = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCloudMarkup = new DevExpress.XtraEditors.SimpleButton();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -164,6 +166,8 @@
             this.flowLayoutPanel1.Controls.Add(this.btnRec);
             this.flowLayoutPanel1.Controls.Add(this.btnClear);
             this.flowLayoutPanel1.Controls.Add(this.simpleButton1);
+            this.flowLayoutPanel1.Controls.Add(this.btnAnyPoint);
+            this.flowLayoutPanel1.Controls.Add(this.btnCloudMarkup);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -215,6 +219,15 @@
             this.btnClear.Text = "전체 지우기";
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(339, 3);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(74, 22);
+            this.simpleButton1.TabIndex = 8;
+            this.simpleButton1.Text = "테스트";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
@@ -227,14 +240,23 @@
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
-            // simpleButton1
+            // btnAnyPoint
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(339, 3);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(74, 22);
-            this.simpleButton1.TabIndex = 8;
-            this.simpleButton1.Text = "테스트";
-            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            this.btnAnyPoint.Location = new System.Drawing.Point(419, 3);
+            this.btnAnyPoint.Name = "btnAnyPoint";
+            this.btnAnyPoint.Size = new System.Drawing.Size(74, 22);
+            this.btnAnyPoint.TabIndex = 9;
+            this.btnAnyPoint.Text = "다각형";
+            this.btnAnyPoint.Click += new System.EventHandler(this.btnAnyPoint_Click);
+            // 
+            // btnCloudMarkup
+            // 
+            this.btnCloudMarkup.Location = new System.Drawing.Point(499, 3);
+            this.btnCloudMarkup.Name = "btnCloudMarkup";
+            this.btnCloudMarkup.Size = new System.Drawing.Size(108, 22);
+            this.btnCloudMarkup.TabIndex = 10;
+            this.btnCloudMarkup.Text = "cloud markup";
+            this.btnCloudMarkup.Click += new System.EventHandler(this.btnCloudMarkup_Click);
             // 
             // Form1
             // 
@@ -282,6 +304,8 @@
         private System.Windows.Forms.ToolStripMenuItem EraBold;
         private DevExpress.XtraEditors.SimpleButton btnClear;
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton btnAnyPoint;
+        private DevExpress.XtraEditors.SimpleButton btnCloudMarkup;
     }
 }
 

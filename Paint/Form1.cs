@@ -193,9 +193,12 @@ namespace Paint
                 };
 
                 CurveData cd = new CurveData();
+                cd.startPoint = curveSaveData[count].startPoint;
+                cd.endPoint = curveSaveData[count].endPoint;
                 cd.point = p;
+                
+                curveSaveData.RemoveAt(count);
                 curveSaveData.Add(cd);
-                //curveSaveData.RemoveAt(count);
                 DrawAll();
                 g.DrawCurve(new Pen(Color.Aquamarine), p);
                 curveFlag = false;
@@ -205,8 +208,6 @@ namespace Paint
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             flag = false;
-            curveFlag = true;
-
             switch (drawMode)
             {
                 case DrawMode.penMode:
@@ -229,6 +230,7 @@ namespace Paint
                     cd.startPoint = ClickPos;
                     cd.endPoint = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
                     curveSaveData.Add(cd);
+                    curveFlag = true;
                     break;
 
                 case DrawMode.rect:
@@ -345,20 +347,175 @@ namespace Paint
             {
                 pictureBox1.Width = frm.width;
                 pictureBox1.Height = frm.height;
+                picBmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                g = Graphics.FromImage(picBmp);
+                pictureBox1.Image = picBmp;
             }
         }
 
         private void simpleButton1_Click(object sender, EventArgs e)
         {
-            Point[] poin = new Point[]
-            {
-                new Point(175, 10),
-                new Point(10,165),
-                new Point(340, 165),
-                new Point(200, 400),
-            };
+            //Point[] poin = new Point[]
+            //{
+            //    new Point(175, 10),
+            //    new Point(10,165),
+            //    new Point(340, 165),
+            //    new Point(200, 400),
+            //};
 
-            g.DrawPolygon(new Pen(Color.Red), poin);
+            //g.DrawPolygon(new Pen(Color.Red), poin);
+
+            ////클라우드 마크 만들기
+            //Rectangle rectangle = new Rectangle(106, 51, 417, 180);
+            //g.DrawRectangle(new Pen(Color.Aquamarine), rectangle);
+            //pictureBox1.Image = picBmp;
+
+            //하트 만들기
+            //g.DrawEllipse(p, 50, 50, 80, 80);
+            //g.DrawEllipse(p, 130, 50, 80, 80);
+
+            //Point[] point = new Point[]
+            //{
+            //    new Point(70,40),
+            //    new Point(80, 30),
+            //    new Point(90,40)
+
+            //};
+
+            //Point[] point2 = new Point[]
+            //{
+            //    new Point(90,40),
+            //    new Point(100, 30),
+            //    new Point(110,40)
+
+            //};
+
+            int startp = 70;
+            int middlep = 80;
+            int endp = 90;
+
+            for (int i = 0; i < 5; i++)
+            {
+                Pen pp = new Pen(Color.Red);
+
+                Point[] point = new Point[]
+                {
+                    new Point(startp,40),
+                    new Point(middlep, 33),
+                    new Point(endp,40)
+                };
+
+                g.DrawCurve(pp, point);
+
+                Point[] pointunder = new Point[]
+                { 
+                    new Point(startp, 90),
+                    new Point(middlep, 97),
+                    new Point(endp, 90)
+                };
+                
+                g.DrawCurve(pp, pointunder);
+
+                Point[] pointleft = new Point[]
+                {
+                    new Point(70, 60),
+                    new Point(63, 50),
+                    new Point(70, 40)
+                };
+
+                g.DrawCurve(pp, pointleft);
+
+                startp += 20;
+                middlep += 20;
+                endp += 20;
+            }
+            ////곡선 만들기
+            //g.DrawCurve(pp, point);
+            //g.DrawCurve(pp, point2);
+
+            pictureBox1.Image = picBmp;
+        }
+
+        private void btnAnyPoint_Click(object sender, EventArgs e)
+        {
+            //다각형
+            //Point[] poin = new Point[]
+            //{
+            //    new Point(175, 10),
+            //    new Point(10,165),
+            //    new Point(340, 165),
+            //    new Point(200, 400),
+            //};
+
+            //g.DrawPolygon(new Pen(Color.Red), poin);
+        }
+
+        private void btnCloudMarkup_Click(object sender, EventArgs e)
+        {
+            //클라우드 마크 만들기
+            Pen pp = new Pen(Color.Red,3);
+
+            Rectangle rectangle = new Rectangle(106, 51, 300, 300);
+            //g.DrawRectangle(new Pen(Color.Aquamarine), rectangle); //사각형은 그려주지 않음
+            //pictureBox1.Image = picBmp;
+
+            int divWidth = rectangle.Width/4;
+            int divHeight = rectangle.Height/4;
+
+            int pointX = rectangle.X;
+            int pointY = rectangle.Y;
+
+            for (int i = 0; i < 4; i++)
+            {
+                //가로
+                Point[] p1 = new Point[]
+                { 
+                    new Point(pointX, pointY),
+                    new Point((pointX + divWidth / 2), pointY - 20),
+                    new Point(pointX + divWidth,pointY)
+                };
+
+                Point[] p2 = new Point[]
+                {
+                    new Point(pointX, pointY + rectangle.Height),
+                    new Point((pointX + divWidth / 2), (pointY+ rectangle.Height) + 20),
+                    new Point(pointX + divWidth,pointY + rectangle.Height)
+                };
+
+                //rectangle.X += divWidth;
+                pointX += divWidth;
+
+                g.DrawCurve(pp, p1);
+                g.DrawCurve(pp, p2);
+            }
+
+            pointX = rectangle.X;
+            pointY = rectangle.Y;
+
+            for (int i = 0; i < 4; i++)
+            {
+                //세로
+                Point[] p3 = new Point[]
+                {
+                    new Point(pointX, pointY),
+                    new Point(pointX - 20,(pointY + divHeight / 2)),
+                    new Point(pointX, pointY + divHeight)
+                };
+
+                Point[] p4 = new Point[]
+                {
+                    new Point(pointX + rectangle.Width, pointY),
+                    new Point(pointX + rectangle.Width + 20,(pointY + divHeight / 2)),
+                    new Point(pointX + rectangle.Width, pointY + divHeight)
+                };
+
+                pointY += divHeight;
+
+                g.DrawCurve(pp, p3);
+                g.DrawCurve(pp, p4);
+            }
+
+            pictureBox1.Image = picBmp;
         }
     }
 }

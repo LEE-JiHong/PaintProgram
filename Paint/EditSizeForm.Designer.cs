@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rdoPer = new System.Windows.Forms.RadioButton();
             this.rdoPix = new System.Windows.Forms.RadioButton();
+            this.rdoPer = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.txtwidth = new DevExpress.XtraEditors.TextEdit();
             this.txtheight = new DevExpress.XtraEditors.TextEdit();
@@ -53,17 +53,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "크기 조정";
             // 
-            // rdoPer
-            // 
-            this.rdoPer.AutoSize = true;
-            this.rdoPer.Location = new System.Drawing.Point(19, 33);
-            this.rdoPer.Name = "rdoPer";
-            this.rdoPer.Size = new System.Drawing.Size(59, 16);
-            this.rdoPer.TabIndex = 0;
-            this.rdoPer.TabStop = true;
-            this.rdoPer.Text = "백분율";
-            this.rdoPer.UseVisualStyleBackColor = true;
-            // 
             // rdoPix
             // 
             this.rdoPix.AutoSize = true;
@@ -74,6 +63,17 @@
             this.rdoPix.TabStop = true;
             this.rdoPix.Text = "픽셀";
             this.rdoPix.UseVisualStyleBackColor = true;
+            // 
+            // rdoPer
+            // 
+            this.rdoPer.AutoSize = true;
+            this.rdoPer.Location = new System.Drawing.Point(19, 33);
+            this.rdoPer.Name = "rdoPer";
+            this.rdoPer.Size = new System.Drawing.Size(59, 16);
+            this.rdoPer.TabIndex = 0;
+            this.rdoPer.TabStop = true;
+            this.rdoPer.Text = "백분율";
+            this.rdoPer.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
