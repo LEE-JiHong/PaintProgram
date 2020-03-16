@@ -70,35 +70,47 @@ namespace Paint
         {
             g.Clear(Color.White);
 
-            foreach (SaveData sd in lineSaveData)
-            {
-                g.DrawLine(new Pen(Color.Aquamarine), sd.startPoint, sd.endPoint);
-            }
+            //foreach (SaveData sd in lineSaveData)
+            //{
+            //    g.DrawLine(new Pen(Color.Aquamarine), sd.startPoint, sd.endPoint);
+            //}
 
             foreach (CurveData pt in curveSaveData)
             {
                 if (pt.point != null)
                 {
-                    g.DrawCurve(new Pen(Color.Aquamarine), pt.point);
+                    pt.Drawing(g);
                 }
             }
 
-            foreach (Rectangle rec in recSaveData)
-            {
-                g.DrawRectangle(new Pen(Color.Aquamarine), rec);
-            }
+            //foreach (Rectangle rec in recSaveData)
+            //{
+            //    g.DrawRectangle(new Pen(Color.Aquamarine), rec);
+            //}
 
-            foreach (Rectangle rec in circleSaveSData)
-            {
-                g.DrawEllipse(new Pen(Color.Aquamarine), rec);
-            }
+            //foreach (Rectangle rec in circleSaveSData)
+            //{
+            //    g.DrawEllipse(new Pen(Color.Aquamarine), rec);
+            //}
 
-            foreach (DrawingData dd in drawingSaveData)
-            {
-                g.DrawEllipse(dd.pen, dd.point.X, dd.point.Y, dd.pen.Width, dd.pen.Width);
-            }
+            //foreach (DrawingData dd in drawingSaveData)
+            //{
+            //    g.DrawEllipse(dd.pen, dd.point.X, dd.point.Y, dd.pen.Width, dd.pen.Width);
+            //}
 
             pictureBox1.Image = picBmp;
+
+            switch (drawMode)
+            {
+                case DrawMode.curve: //곡선 그리기
+                        g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
+                    break;
+                case DrawMode.circle: //타원형 그리기
+                        rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X- ClickPos.X, CurPos.Y- ClickPos.Y);
+                        g.DrawEllipse(new Pen(Color.Aquamarine), rec);
+                    break;
+            }
+
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -149,7 +161,7 @@ namespace Paint
                         if (e.Button == MouseButtons.Left)
                         {
                             DrawAll();
-                            g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
+                            //g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
                         }
                         break;
 
@@ -167,7 +179,7 @@ namespace Paint
                         {
                             rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X, CurPos.Y);
                             DrawAll();
-                            g.DrawEllipse(new Pen(Color.Aquamarine), rec);
+                            //g.DrawEllipse(new Pen(Color.Aquamarine), rec);
                         }
                         break;
                 }
@@ -180,28 +192,31 @@ namespace Paint
 
             ClickPos = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
             kinowPoint = ClickPos;
-            
+
             if (curveFlag == true && drawMode == DrawMode.curve) //곡선
             {
-                Point po = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
-                int count = curveSaveData.Count-1;
-                Point[] p =
+                if (curveSaveData.Count >= 1)
                 {
+                    Point po = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
+                    int count = curveSaveData.Count - 1;
+                    Point[] p =
+                    {
                     curveSaveData[count].startPoint,
                     po,
                     curveSaveData[count].endPoint,
-                };
+                    };
 
-                CurveData cd = new CurveData();
-                cd.startPoint = curveSaveData[count].startPoint;
-                cd.endPoint = curveSaveData[count].endPoint;
-                cd.point = p;
-                
-                curveSaveData.RemoveAt(count);
-                curveSaveData.Add(cd);
-                DrawAll();
-                g.DrawCurve(new Pen(Color.Aquamarine), p);
-                curveFlag = false;
+                    CurveData cd = new CurveData();
+                    cd.startPoint = curveSaveData[count].startPoint;
+                    cd.endPoint = curveSaveData[count].endPoint;
+                    cd.point = p;
+
+                    curveSaveData.RemoveAt(count);
+                    curveSaveData.Add(cd);
+                    DrawAll();
+                    //g.DrawCurve(new Pen(Color.Aquamarine), p);
+                    curveFlag = false;
+                }
             }
         }
 
@@ -455,66 +470,88 @@ namespace Paint
             //클라우드 마크 만들기
             Pen pp = new Pen(Color.MediumAquamarine,3);
 
-            Rectangle rectangle = new Rectangle(106, 51, 300, 300);
-            //g.DrawRectangle(new Pen(Color.Aquamarine), rectangle); //사각형은 그려주지 않음
+            Rectangle rectangle = new Rectangle(100, 50, 300, 300);
+
+            int circleWidh  = rectangle.Width / 5;
+            int circleHeight = rectangle.Width / 5;
+
+            int widthcnt = 1;
+            for(int i=rectangle.X; i<=rectangle.Width; i+= circleWidh)
+            {
+                Point temp_ = new Point(rectangle.X + circleWidh * widthcnt * 1, rectangle.Y);
+                g.DrawEllipse(new Pen(Color.Red), temp_.X - circleWidh / 2, temp_.Y - circleWidh / 2, circleWidh, circleWidh);
+                widthcnt++;
+            }
+
+
+            g.FillRectangle(new SolidBrush(Color.White), rectangle);
+
+
+
+
+
+
+
+            //Rectangle rectangle = new Rectangle(106, 51, 300, 300);
+            ////g.DrawRectangle(new Pen(Color.Aquamarine), rectangle); //사각형은 그려주지 않음
+            ////pictureBox1.Image = picBmp;
+
+            //int divWidth = rectangle.Width/4;
+            //int divHeight = rectangle.Height/4;
+
+            //int pointX = rectangle.X;
+            //int pointY = rectangle.Y;
+
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    //가로
+            //    Point[] p1 = new Point[]
+            //    { 
+            //        new Point(pointX, pointY),
+            //        new Point((pointX + divWidth / 2), pointY - 20),
+            //        new Point(pointX + divWidth,pointY)
+            //    };
+
+            //    Point[] p2 = new Point[]
+            //    {
+            //        new Point(pointX, pointY + rectangle.Height),
+            //        new Point((pointX + divWidth / 2), (pointY+ rectangle.Height) + 20),
+            //        new Point(pointX + divWidth,pointY + rectangle.Height)
+            //    };
+
+            //    //rectangle.X += divWidth;
+            //    pointX += divWidth;
+
+            //    g.DrawCurve(pp, p1);
+            //    g.DrawCurve(pp, p2);
+            //}
+
+            //pointX = rectangle.X;
+            //pointY = rectangle.Y;
+
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    //세로
+            //    Point[] p3 = new Point[]
+            //    {
+            //        new Point(pointX, pointY),
+            //        new Point(pointX - 20,(pointY + divHeight / 2)),
+            //        new Point(pointX, pointY + divHeight)
+            //    };
+
+            //    Point[] p4 = new Point[]
+            //    {
+            //        new Point(pointX + rectangle.Width, pointY),
+            //        new Point(pointX + rectangle.Width + 20,(pointY + divHeight / 2)),
+            //        new Point(pointX + rectangle.Width, pointY + divHeight)
+            //    };
+
+            //    pointY += divHeight;
+
+            //    g.DrawCurve(pp, p3);
+            //    g.DrawCurve(pp, p4);
+            //}
             //pictureBox1.Image = picBmp;
-
-            int divWidth = rectangle.Width/4;
-            int divHeight = rectangle.Height/4;
-
-            int pointX = rectangle.X;
-            int pointY = rectangle.Y;
-
-            for (int i = 0; i < 4; i++)
-            {
-                //가로
-                Point[] p1 = new Point[]
-                { 
-                    new Point(pointX, pointY),
-                    new Point((pointX + divWidth / 2), pointY - 20),
-                    new Point(pointX + divWidth,pointY)
-                };
-
-                Point[] p2 = new Point[]
-                {
-                    new Point(pointX, pointY + rectangle.Height),
-                    new Point((pointX + divWidth / 2), (pointY+ rectangle.Height) + 20),
-                    new Point(pointX + divWidth,pointY + rectangle.Height)
-                };
-
-                //rectangle.X += divWidth;
-                pointX += divWidth;
-
-                g.DrawCurve(pp, p1);
-                g.DrawCurve(pp, p2);
-            }
-
-            pointX = rectangle.X;
-            pointY = rectangle.Y;
-
-            for (int i = 0; i < 4; i++)
-            {
-                //세로
-                Point[] p3 = new Point[]
-                {
-                    new Point(pointX, pointY),
-                    new Point(pointX - 20,(pointY + divHeight / 2)),
-                    new Point(pointX, pointY + divHeight)
-                };
-
-                Point[] p4 = new Point[]
-                {
-                    new Point(pointX + rectangle.Width, pointY),
-                    new Point(pointX + rectangle.Width + 20,(pointY + divHeight / 2)),
-                    new Point(pointX + rectangle.Width, pointY + divHeight)
-                };
-
-                pointY += divHeight;
-
-                g.DrawCurve(pp, p3);
-                g.DrawCurve(pp, p4);
-            }
-            pictureBox1.Image = picBmp;
         }
     }
 }

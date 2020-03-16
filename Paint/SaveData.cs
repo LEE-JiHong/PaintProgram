@@ -12,12 +12,16 @@ namespace Paint
         //포인트 저장하는 vo
         public Point startPoint { get; set; }
         public Point endPoint { get; set; }
-    }
+    }      
 
     public class CurveData : SaveData
     {
         //곡선 포인트 저장하는 vo
         public Point[] point { get; set; }
+        public void Drawing(Graphics g)
+        {
+            g.DrawCurve(new Pen(Color.Aquamarine), point);
+        }
     }
 
     public class DrawingData
