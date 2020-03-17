@@ -29,6 +29,7 @@ namespace Paint
         Rectangle rec;
         Pen p;
 
+        //이전 데이터들을 담을 변수
         List<SaveData> lineSaveData; //선
         List<Rectangle> recSaveData; //사각형
         List<Rectangle> circleSaveSData; //원
@@ -54,7 +55,6 @@ namespace Paint
             circleSaveSData = new List<Rectangle>();
             curveSaveData = new List<CurveData>();
             drawingSaveData = new List<DrawingData>();
-            
         }
         
         private void DrawAll()
@@ -266,11 +266,7 @@ namespace Paint
             }
         }
 
-        private void btnBrush_Click(object sender, EventArgs e)
-        {
-            //브러쉬 버튼 선택
-        }
-
+        
         #region 브러쉬 펜 굵기 세팅
         //펜
         private void thin_Click(object sender, EventArgs e)
@@ -312,9 +308,10 @@ namespace Paint
 
         #endregion
 
-        //펜 굵기 설정
+        
         public void SetPenOrEraser(int curLineSize, DrawMode drawMode)
         {
+            //펜 굵기 설정
             this.curLineSize = curLineSize;
             this.drawMode = drawMode;
         }
@@ -341,7 +338,6 @@ namespace Paint
             circleSaveSData.Clear();
             curveSaveData.Clear();
             drawingSaveData.Clear();
-
 
             pictureBox1.Image = picBmp;
         }
@@ -373,7 +369,6 @@ namespace Paint
 
         private void simpleButton1_Click(object sender, EventArgs e)
         {
-
             int startp = 70;
             int middlep = 80;
             int endp = 90;
