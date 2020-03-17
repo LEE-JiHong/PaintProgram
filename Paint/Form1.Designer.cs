@@ -47,9 +47,9 @@
             this.btnRec = new DevExpress.XtraEditors.SimpleButton();
             this.btnClear = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnAnyPoint = new DevExpress.XtraEditors.SimpleButton();
+            this.btnHeart = new DevExpress.XtraEditors.SimpleButton();
             this.btnCloudMarkup = new DevExpress.XtraEditors.SimpleButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -166,7 +166,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnRec);
             this.flowLayoutPanel1.Controls.Add(this.btnClear);
             this.flowLayoutPanel1.Controls.Add(this.simpleButton1);
-            this.flowLayoutPanel1.Controls.Add(this.btnAnyPoint);
+            this.flowLayoutPanel1.Controls.Add(this.btnHeart);
             this.flowLayoutPanel1.Controls.Add(this.btnCloudMarkup);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -223,41 +223,40 @@
             // 
             this.simpleButton1.Location = new System.Drawing.Point(339, 3);
             this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(74, 22);
+            this.simpleButton1.Size = new System.Drawing.Size(141, 22);
             this.simpleButton1.TabIndex = 8;
-            this.simpleButton1.Text = "테스트";
+            this.simpleButton1.Text = "테스트는그저테스트일뿐";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
-            // pictureBox1
+            // btnHeart
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 52);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(959, 563);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
-            // 
-            // btnAnyPoint
-            // 
-            this.btnAnyPoint.Location = new System.Drawing.Point(419, 3);
-            this.btnAnyPoint.Name = "btnAnyPoint";
-            this.btnAnyPoint.Size = new System.Drawing.Size(74, 22);
-            this.btnAnyPoint.TabIndex = 9;
-            this.btnAnyPoint.Text = "다각형";
-            this.btnAnyPoint.Click += new System.EventHandler(this.btnAnyPoint_Click);
+            this.btnHeart.Location = new System.Drawing.Point(486, 3);
+            this.btnHeart.Name = "btnHeart";
+            this.btnHeart.Size = new System.Drawing.Size(74, 22);
+            this.btnHeart.TabIndex = 9;
+            this.btnHeart.Text = "하트모양";
+            this.btnHeart.Click += new System.EventHandler(this.btnHeart_Click);
             // 
             // btnCloudMarkup
             // 
-            this.btnCloudMarkup.Location = new System.Drawing.Point(499, 3);
+            this.btnCloudMarkup.Location = new System.Drawing.Point(566, 3);
             this.btnCloudMarkup.Name = "btnCloudMarkup";
             this.btnCloudMarkup.Size = new System.Drawing.Size(108, 22);
             this.btnCloudMarkup.TabIndex = 10;
             this.btnCloudMarkup.Text = "cloud markup";
             this.btnCloudMarkup.Click += new System.EventHandler(this.btnCloudMarkup_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 52);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(873, 511);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // Form1
             // 
@@ -305,7 +304,7 @@
         private System.Windows.Forms.ToolStripMenuItem EraBold;
         private DevExpress.XtraEditors.SimpleButton btnClear;
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
-        private DevExpress.XtraEditors.SimpleButton btnAnyPoint;
+        private DevExpress.XtraEditors.SimpleButton btnHeart;
         private DevExpress.XtraEditors.SimpleButton btnCloudMarkup;
     }
 }

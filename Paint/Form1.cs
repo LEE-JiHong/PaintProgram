@@ -12,16 +12,6 @@ using System.Windows.Forms;
 
 namespace Paint
 {
-    public enum DrawMode
-    { 
-        penMode, //펜
-        eraserMode, //지우개
-        line, //선
-        rect, //직사각형
-        circle, //타원형
-        curve //곡선
-    }
-
     public partial class Form1 : Form
     {
         DrawMode drawMode;
@@ -40,18 +30,18 @@ namespace Paint
         Rectangle rec;
         Pen p;
 
-        List<SaveData> lineSaveData;
-        List<Rectangle> recSaveData;
-        List<Rectangle> circleSaveSData;
-        List<CurveData> curveSaveData;
+        List<SaveData> lineSaveData; //선
+        List<Rectangle> recSaveData; //사각형
+        List<Rectangle> circleSaveSData; //원
+        List<CurveData> curveSaveData; //곡선
         List<DrawingData> drawingSaveData;
 
         public Form1()
         {
             InitializeComponent();
+            this.Load += Form1_Load;
 
             picBmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            this.Load += Form1_Load;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -70,10 +60,10 @@ namespace Paint
         {
             g.Clear(Color.White);
 
-            //foreach (SaveData sd in lineSaveData)
-            //{
-            //    g.DrawLine(new Pen(Color.Aquamarine), sd.startPoint, sd.endPoint);
-            //}
+            foreach (SaveData sd in lineSaveData)
+            {
+                g.DrawLine(new Pen(Color.Aquamarine), sd.startPoint, sd.endPoint);
+            }
 
             foreach (CurveData pt in curveSaveData)
             {
@@ -83,34 +73,45 @@ namespace Paint
                 }
             }
 
-            //foreach (Rectangle rec in recSaveData)
-            //{
-            //    g.DrawRectangle(new Pen(Color.Aquamarine), rec);
-            //}
+            foreach (Rectangle rec in recSaveData)
+            {
+                g.DrawRectangle(new Pen(Color.Aquamarine), rec);
+            }
 
-            //foreach (Rectangle rec in circleSaveSData)
-            //{
-            //    g.DrawEllipse(new Pen(Color.Aquamarine), rec);
-            //}
+            foreach (Rectangle rec in circleSaveSData)
+            {
+                g.DrawEllipse(new Pen(Color.Aquamarine), rec);
+            }
 
-            //foreach (DrawingData dd in drawingSaveData)
-            //{
-            //    g.DrawEllipse(dd.pen, dd.point.X, dd.point.Y, dd.pen.Width, dd.pen.Width);
-            //}
+            foreach (DrawingData dd in drawingSaveData)
+            {
+                g.DrawEllipse(dd.pen, dd.point.X, dd.point.Y, dd.pen.Width, dd.pen.Width);
+            }
 
             pictureBox1.Image = picBmp;
 
             switch (drawMode)
             {
+                case DrawMode.line: //선 그리기
+                        g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
+                    break;
                 case DrawMode.curve: //곡선 그리기
                         g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
+                    break;
+                case DrawMode.rect: //직사각형 그리기
+                        rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
+                        g.DrawRectangle(new Pen(Color.Aquamarine), rec);
                     break;
                 case DrawMode.circle: //타원형 그리기
                         rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X- ClickPos.X, CurPos.Y- ClickPos.Y);
                         g.DrawEllipse(new Pen(Color.Aquamarine), rec);
                     break;
+                case DrawMode.cloudMark:
+                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
+                    CloudMark cm = new CloudMark();
+                    cm.Drawing(g, rec, new Pen(Color.Red));
+                    break;
             }
-
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -146,14 +147,11 @@ namespace Paint
                         dd.pen = p;
                         dd.point = CurPos;
                         drawingSaveData.Add(dd);
-                        //DrawAll(); 
-                        // p.Dispose();
                         break;
                     case DrawMode.line: //선 그리기
                         if (e.Button == MouseButtons.Left)
                         {
                             DrawAll();
-                            g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
                         }
                         break;
 
@@ -161,25 +159,26 @@ namespace Paint
                         if (e.Button == MouseButtons.Left)
                         {
                             DrawAll();
-                            //g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
                         }
                         break;
 
                     case DrawMode.rect: //직사각형 그리기
                         if (e.Button == MouseButtons.Left)
                         {
-                            rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X, CurPos.Y);
                             DrawAll();
-                            g.DrawRectangle(new Pen(Color.Aquamarine), rec);
                         }
                         break;
 
                     case DrawMode.circle: //타원형 그리기
                         if (e.Button == MouseButtons.Left)
                         {
-                            rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X, CurPos.Y);
                             DrawAll();
-                            //g.DrawEllipse(new Pen(Color.Aquamarine), rec);
+                        }
+                        break;
+                    case DrawMode.cloudMark:
+                        if (e.Button == MouseButtons.Left) //클라우드 마크 그리기
+                        {
+                            DrawAll();
                         }
                         break;
                 }
@@ -214,7 +213,6 @@ namespace Paint
                     curveSaveData.RemoveAt(count);
                     curveSaveData.Add(cd);
                     DrawAll();
-                    //g.DrawCurve(new Pen(Color.Aquamarine), p);
                     curveFlag = false;
                 }
             }
@@ -254,6 +252,9 @@ namespace Paint
 
                 case DrawMode.circle:
                     circleSaveSData.Add(rec);
+                    break;
+
+                case DrawMode.cloudMark:
                     break;
             }
 
@@ -370,40 +371,6 @@ namespace Paint
 
         private void simpleButton1_Click(object sender, EventArgs e)
         {
-            //Point[] poin = new Point[]
-            //{
-            //    new Point(175, 10),
-            //    new Point(10,165),
-            //    new Point(340, 165),
-            //    new Point(200, 400),
-            //};
-
-            //g.DrawPolygon(new Pen(Color.Red), poin);
-
-            ////클라우드 마크 만들기
-            //Rectangle rectangle = new Rectangle(106, 51, 417, 180);
-            //g.DrawRectangle(new Pen(Color.Aquamarine), rectangle);
-            //pictureBox1.Image = picBmp;
-
-            //하트 만들기
-            //g.DrawEllipse(p, 50, 50, 80, 80);
-            //g.DrawEllipse(p, 130, 50, 80, 80);
-
-            //Point[] point = new Point[]
-            //{
-            //    new Point(70,40),
-            //    new Point(80, 30),
-            //    new Point(90,40)
-
-            //};
-
-            //Point[] point2 = new Point[]
-            //{
-            //    new Point(90,40),
-            //    new Point(100, 30),
-            //    new Point(110,40)
-
-            //};
 
             int startp = 70;
             int middlep = 80;
@@ -451,107 +418,32 @@ namespace Paint
             pictureBox1.Image = picBmp;
         }
 
-        private void btnAnyPoint_Click(object sender, EventArgs e)
-        {
-            //다각형
-            //Point[] poin = new Point[]
-            //{
-            //    new Point(175, 10),
-            //    new Point(10,165),
-            //    new Point(340, 165),
-            //    new Point(200, 400),
-            //};
-
-            //g.DrawPolygon(new Pen(Color.Red), poin);
-        }
-
         private void btnCloudMarkup_Click(object sender, EventArgs e)
         {
-            //클라우드 마크 만들기
-            Pen pp = new Pen(Color.MediumAquamarine,3);
+            drawMode = DrawMode.cloudMark;
+        }
 
-            Rectangle rectangle = new Rectangle(100, 50, 300, 300);
+        private void btnHeart_Click(object sender, EventArgs e)
+        {
+            //하트모양
+            Rectangle rectangle = new Rectangle(100, 50, 200, 200);
 
-            int circleWidh  = rectangle.Width / 5;
-            int circleHeight = rectangle.Width / 5;
+            int circleWidth = rectangle.Width / 2;
 
             int widthcnt = 1;
-            for(int i=rectangle.X; i<=rectangle.Width; i+= circleWidh)
+
+            for (int i = rectangle.Y; i <= rectangle.Width; i += circleWidth)
             {
-                Point temp_ = new Point(rectangle.X + circleWidh * widthcnt * 1, rectangle.Y);
-                g.DrawEllipse(new Pen(Color.Red), temp_.X - circleWidh / 2, temp_.Y - circleWidh / 2, circleWidh, circleWidh);
+                Point temp_ = new Point(rectangle.X + circleWidth * widthcnt * 1, rectangle.Y);
+                g.DrawEllipse(new Pen(Color.Red), temp_.X - circleWidth, temp_.Y - circleWidth / circleWidth, circleWidth, circleWidth);
                 widthcnt++;
             }
 
+            Rectangle whiteRec = new Rectangle(rectangle.X,rectangle.Height - circleWidth, rectangle.Width, circleWidth);
+            g.FillRectangle(new SolidBrush(Color.White), whiteRec);
 
-            g.FillRectangle(new SolidBrush(Color.White), rectangle);
-
-
-
-
-
-
-
-            //Rectangle rectangle = new Rectangle(106, 51, 300, 300);
-            ////g.DrawRectangle(new Pen(Color.Aquamarine), rectangle); //사각형은 그려주지 않음
-            ////pictureBox1.Image = picBmp;
-
-            //int divWidth = rectangle.Width/4;
-            //int divHeight = rectangle.Height/4;
-
-            //int pointX = rectangle.X;
-            //int pointY = rectangle.Y;
-
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    //가로
-            //    Point[] p1 = new Point[]
-            //    { 
-            //        new Point(pointX, pointY),
-            //        new Point((pointX + divWidth / 2), pointY - 20),
-            //        new Point(pointX + divWidth,pointY)
-            //    };
-
-            //    Point[] p2 = new Point[]
-            //    {
-            //        new Point(pointX, pointY + rectangle.Height),
-            //        new Point((pointX + divWidth / 2), (pointY+ rectangle.Height) + 20),
-            //        new Point(pointX + divWidth,pointY + rectangle.Height)
-            //    };
-
-            //    //rectangle.X += divWidth;
-            //    pointX += divWidth;
-
-            //    g.DrawCurve(pp, p1);
-            //    g.DrawCurve(pp, p2);
-            //}
-
-            //pointX = rectangle.X;
-            //pointY = rectangle.Y;
-
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    //세로
-            //    Point[] p3 = new Point[]
-            //    {
-            //        new Point(pointX, pointY),
-            //        new Point(pointX - 20,(pointY + divHeight / 2)),
-            //        new Point(pointX, pointY + divHeight)
-            //    };
-
-            //    Point[] p4 = new Point[]
-            //    {
-            //        new Point(pointX + rectangle.Width, pointY),
-            //        new Point(pointX + rectangle.Width + 20,(pointY + divHeight / 2)),
-            //        new Point(pointX + rectangle.Width, pointY + divHeight)
-            //    };
-
-            //    pointY += divHeight;
-
-            //    g.DrawCurve(pp, p3);
-            //    g.DrawCurve(pp, p4);
-            //}
-            //pictureBox1.Image = picBmp;
+            g.DrawLine(new Pen(Color.Red), new Point(rectangle.X, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width/2,rectangle.Y + rectangle.Height));
+            g.DrawLine(new Pen(Color.Red), new Point(rectangle.X + rectangle.Width, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height));
         }
     }
 }
