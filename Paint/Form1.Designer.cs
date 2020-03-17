@@ -50,6 +50,7 @@
             this.btnHeart = new DevExpress.XtraEditors.SimpleButton();
             this.btnCloudMarkup = new DevExpress.XtraEditors.SimpleButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnMemo = new DevExpress.XtraEditors.SimpleButton();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -168,6 +169,7 @@
             this.flowLayoutPanel1.Controls.Add(this.simpleButton1);
             this.flowLayoutPanel1.Controls.Add(this.btnHeart);
             this.flowLayoutPanel1.Controls.Add(this.btnCloudMarkup);
+            this.flowLayoutPanel1.Controls.Add(this.btnMemo);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -226,6 +228,7 @@
             this.simpleButton1.Size = new System.Drawing.Size(141, 22);
             this.simpleButton1.TabIndex = 8;
             this.simpleButton1.Text = "테스트는그저테스트일뿐";
+            this.simpleButton1.Visible = false;
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
             // btnHeart
@@ -257,6 +260,14 @@
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            // 
+            // btnMemo
+            // 
+            this.btnMemo.Location = new System.Drawing.Point(680, 3);
+            this.btnMemo.Name = "btnMemo";
+            this.btnMemo.Size = new System.Drawing.Size(108, 22);
+            this.btnMemo.TabIndex = 11;
+            this.btnMemo.Text = "cloud markup 메모";
             // 
             // Form1
             // 
@@ -306,6 +317,7 @@
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
         private DevExpress.XtraEditors.SimpleButton btnHeart;
         private DevExpress.XtraEditors.SimpleButton btnCloudMarkup;
+        private DevExpress.XtraEditors.SimpleButton btnMemo;
     }
 }
 

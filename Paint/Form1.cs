@@ -25,7 +25,6 @@ namespace Paint
         Graphics g = null;
         Point ClickPos = new Point();
         Point CurPos= new Point();
-        Point kinowPoint;
 
         Rectangle rec;
         Pen p;
@@ -42,6 +41,7 @@ namespace Paint
             this.Load += Form1_Load;
 
             picBmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            btnMemo.Click += new EventHandler(btnMemo_click);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -54,6 +54,7 @@ namespace Paint
             circleSaveSData = new List<Rectangle>();
             curveSaveData = new List<CurveData>();
             drawingSaveData = new List<DrawingData>();
+            
         }
         
         private void DrawAll()
@@ -69,6 +70,7 @@ namespace Paint
             {
                 if (pt.point != null)
                 {
+
                     pt.Drawing(g);
                 }
             }
@@ -106,7 +108,7 @@ namespace Paint
                         rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X- ClickPos.X, CurPos.Y- ClickPos.Y);
                         g.DrawEllipse(new Pen(Color.Aquamarine), rec);
                     break;
-                case DrawMode.cloudMark:
+                case DrawMode.cloudMark: //클라우드마크
                     rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
                     CloudMark cm = new CloudMark();
                     cm.Drawing(g, rec, new Pen(Color.Red));
@@ -190,7 +192,6 @@ namespace Paint
             flag = true;
 
             ClickPos = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
-            kinowPoint = ClickPos;
 
             if (curveFlag == true && drawMode == DrawMode.curve) //곡선
             {
@@ -200,14 +201,14 @@ namespace Paint
                     int count = curveSaveData.Count - 1;
                     Point[] p =
                     {
-                    curveSaveData[count].startPoint,
-                    po,
-                    curveSaveData[count].endPoint,
+                        curveSaveData[count].startPoint,
+                        po,
+                        curveSaveData[count].endPoint,
                     };
 
                     CurveData cd = new CurveData();
-                    cd.startPoint = curveSaveData[count].startPoint;
-                    cd.endPoint = curveSaveData[count].endPoint;
+                    //cd.startPoint = curveSaveData[count].startPoint;
+                   // cd.endPoint = curveSaveData[count].endPoint;
                     cd.point = p;
 
                     curveSaveData.RemoveAt(count);
@@ -239,11 +240,11 @@ namespace Paint
                     break;
 
                 case DrawMode.curve:
-                    CurveData cd = new CurveData();
-                    cd.startPoint = ClickPos;
-                    cd.endPoint = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
-                    curveSaveData.Add(cd);
-                    curveFlag = true;
+                        CurveData cd = new CurveData();
+                        cd.startPoint = ClickPos;
+                        cd.endPoint = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
+                        curveSaveData.Add(cd);
+                        curveFlag = true;
                     break;
 
                 case DrawMode.rect:
@@ -341,6 +342,7 @@ namespace Paint
             curveSaveData.Clear();
             drawingSaveData.Clear();
 
+
             pictureBox1.Image = picBmp;
         }
 
@@ -427,7 +429,6 @@ namespace Paint
         {
             //하트모양
             Rectangle rectangle = new Rectangle(100, 50, 200, 200);
-
             int circleWidth = rectangle.Width / 2;
 
             int widthcnt = 1;
@@ -435,15 +436,25 @@ namespace Paint
             for (int i = rectangle.Y; i <= rectangle.Width; i += circleWidth)
             {
                 Point temp_ = new Point(rectangle.X + circleWidth * widthcnt * 1, rectangle.Y);
-                g.DrawEllipse(new Pen(Color.Red), temp_.X - circleWidth, temp_.Y - circleWidth / circleWidth, circleWidth, circleWidth);
+                g.DrawEllipse(new Pen(Color.Red,3), temp_.X - circleWidth, temp_.Y - circleWidth / circleWidth, circleWidth, circleWidth);
                 widthcnt++;
             }
 
             Rectangle whiteRec = new Rectangle(rectangle.X,rectangle.Height - circleWidth, rectangle.Width, circleWidth);
-            g.FillRectangle(new SolidBrush(Color.White), whiteRec);
+             g.FillRectangle(new SolidBrush(Color.White), whiteRec);
 
-            g.DrawLine(new Pen(Color.Red), new Point(rectangle.X, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width/2,rectangle.Y + rectangle.Height));
-            g.DrawLine(new Pen(Color.Red), new Point(rectangle.X + rectangle.Width, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height));
+            //g.DrawRectangle(new Pen(Color.Red), rectangle);
+
+            g.DrawLine(new Pen(Color.Red,3), new Point(rectangle.X, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width/2,rectangle.Y + rectangle.Height));
+            g.DrawLine(new Pen(Color.Red,3), new Point(rectangle.X + rectangle.Width, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height));
         }
+
+
+        private void btnMemo_click(object sender, EventArgs e)
+        {
+            InputMessageForm frm = new InputMessageForm();
+            frm.ShowDialog();
+        }
+
     }
 }

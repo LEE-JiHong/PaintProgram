@@ -41,7 +41,7 @@ namespace Paint
 
             int widthcnt = 1;
 
-            for (int i = rec.Y; i <= rec.Width; i += circleWidh)
+            for (int i = rec.X; i <= rec.Width; i += circleWidh)
             {
                 Point temp_ = new Point(rec.X + circleWidh * widthcnt * 1, rec.Y);
                 g.DrawEllipse(pen, temp_.X - circleWidh, temp_.Y - circleWidh / 2, circleWidh, circleWidh); //top
