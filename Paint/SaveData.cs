@@ -14,27 +14,30 @@ namespace Paint
         line, //선
         rect, //직사각형
         circle, //타원형
-        curve, //곡선,
-        cloudMark //구름모양
+        curve, //곡선
+        cloudMark, //구름모양
+        cloudMarkText
     }
 
     public class Shape
-    { 
+    {
         public Point point { get; set; }
         public Pen pen { get; set; }
     }
 
     public class rectangle : Shape
-    { 
+    {
         public Rectangle rec { get; set; }
     }
 
     public class CloudMark : rectangle
     {
-        public void Drawing(Graphics g, Rectangle rec, Pen pen)
+        public void Drawing(Graphics g, Rectangle rec, Pen pen, string message)
         {
             this.pen = pen;
             this.rec = rec;
+
+            string msg = message;
 
             int circleWidh = rec.Width / 5;
             int circleHeight = rec.Height / 5;
@@ -71,6 +74,9 @@ namespace Paint
                 widthcnt++;
             }
             g.FillRectangle(new SolidBrush(Color.White), rec);
+
+            Font font = new Font("Consolas", 12, FontStyle.Regular, GraphicsUnit.Point);
+            g.DrawString(msg, font, Brushes.Black, rec);
         }
     }
 
@@ -79,7 +85,7 @@ namespace Paint
         //포인트 저장하는 vo
         public Point startPoint { get; set; }
         public Point endPoint { get; set; }
-    }      
+    }
 
     public class CurveData : SaveData
     {
@@ -92,10 +98,10 @@ namespace Paint
     }
 
     public class DrawingData
-    { 
+    {
         public Pen pen { get; set; }
         public Point point { get; set; }
     }
 
-    
+
 }

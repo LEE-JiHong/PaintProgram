@@ -24,7 +24,7 @@ namespace Paint
 
         Graphics g = null;
         Point ClickPos = new Point();
-        Point CurPos= new Point();
+        Point CurPos = new Point();
 
         Rectangle rec;
         CloudMark cloudMark;
@@ -37,6 +37,8 @@ namespace Paint
         List<CurveData> curveSaveData; //곡선
         List<DrawingData> drawingSaveData;
         List<Rectangle> cloudMarkSaveData;//클라우드마크
+
+        string text = null;
 
         public Form1()
         {
@@ -61,7 +63,7 @@ namespace Paint
 
             cloudMark = new CloudMark();
         }
-        
+
         private void DrawAll()
         {
             g.Clear(Color.White);
@@ -97,7 +99,7 @@ namespace Paint
 
             foreach (Rectangle rec in cloudMarkSaveData)
             {
-                cloudMark.Drawing(g, rec, new Pen(Color.Red));
+                cloudMark.Drawing(g, rec, new Pen(Color.Red), "");
             }
 
             pictureBox1.Image = picBmp;
@@ -105,22 +107,26 @@ namespace Paint
             switch (drawMode)
             {
                 case DrawMode.line: //선 그리기
-                        g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
+                    g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
                     break;
                 case DrawMode.curve: //곡선 그리기
-                        g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
+                    g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
                     break;
                 case DrawMode.rect: //직사각형 그리기
-                        rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
-                        g.DrawRectangle(new Pen(Color.Aquamarine), rec);
+                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
+                    g.DrawRectangle(new Pen(Color.Aquamarine), rec);
                     break;
                 case DrawMode.circle: //타원형 그리기
-                        rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X- ClickPos.X, CurPos.Y- ClickPos.Y);
-                        g.DrawEllipse(new Pen(Color.Aquamarine), rec);
+                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
+                    g.DrawEllipse(new Pen(Color.Aquamarine), rec);
                     break;
                 case DrawMode.cloudMark: //클라우드마크
-                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X-ClickPos.X, CurPos.Y-ClickPos.Y);
-                    cloudMark.Drawing(g, rec, new Pen(Color.Red));
+                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
+                    cloudMark.Drawing(g, rec, new Pen(Color.Red), "");
+                    break;
+                case DrawMode.cloudMarkText:
+                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
+                    cloudMark.Drawing(g, rec, new Pen(Color.Red), text);
                     break;
             }
         }
@@ -192,6 +198,12 @@ namespace Paint
                             DrawAll();
                         }
                         break;
+                    case DrawMode.cloudMarkText:
+                        if (e.Button == MouseButtons.Left) //클라우드 메모 그리기
+                        {
+                            DrawAll();
+                        }
+                        break;
                 }
             }
         }
@@ -217,7 +229,7 @@ namespace Paint
 
                     CurveData cd = new CurveData();
                     //cd.startPoint = curveSaveData[count].startPoint;
-                   // cd.endPoint = curveSaveData[count].endPoint;
+                    // cd.endPoint = curveSaveData[count].endPoint;
                     cd.point = p;
 
                     curveSaveData.RemoveAt(count);
@@ -249,11 +261,11 @@ namespace Paint
                     break;
 
                 case DrawMode.curve:
-                        CurveData cd = new CurveData();
-                        cd.startPoint = ClickPos;
-                        cd.endPoint = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
-                        curveSaveData.Add(cd);
-                        curveFlag = true;
+                    CurveData cd = new CurveData();
+                    cd.startPoint = ClickPos;
+                    cd.endPoint = pictureBox1.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y));
+                    curveSaveData.Add(cd);
+                    curveFlag = true;
                     break;
 
                 case DrawMode.rect:
@@ -267,16 +279,19 @@ namespace Paint
                 case DrawMode.cloudMark:
                     cloudMarkSaveData.Add(rec);
                     break;
+                case DrawMode.cloudMarkText:
+                    //cloudMarkSaveData.Add(rec);
+                    break;
             }
 
             if (drawMode == DrawMode.rect)
             {
                 Graphics g = Graphics.FromImage(picBmp);
-                g.DrawRectangle(p,rec);
+                g.DrawRectangle(p, rec);
             }
         }
 
-        
+
         #region 브러쉬 펜 굵기 세팅
         //펜
         private void thin_Click(object sender, EventArgs e)
@@ -318,7 +333,7 @@ namespace Paint
 
         #endregion
 
-        
+
         public void SetPenOrEraser(int curLineSize, DrawMode drawMode)
         {
             //펜 굵기 설정
@@ -342,7 +357,7 @@ namespace Paint
         {
             //전체 지우기
             g.Clear(Color.White);
-            
+
             lineSaveData.Clear();
             recSaveData.Clear();
             circleSaveSData.Clear();
@@ -352,7 +367,7 @@ namespace Paint
 
             pictureBox1.Image = picBmp;
         }
-        
+
         private void btnCircle_Click(object sender, EventArgs e)
         {
             //타원형 버튼 클릭
@@ -403,7 +418,7 @@ namespace Paint
             //        new Point(middlep, 97),
             //        new Point(endp, 90)
             //    };
-                
+
             //    g.DrawCurve(pp, pointunder);
 
             //    Point[] pointleft = new Point[]
@@ -444,33 +459,29 @@ namespace Paint
             for (int i = rectangle.Y; i <= rectangle.Width; i += circleWidth)
             {
                 Point temp_ = new Point(rectangle.X + circleWidth * widthcnt * 1, rectangle.Y);
-                g.DrawEllipse(new Pen(Color.Red,3), temp_.X - circleWidth, temp_.Y - circleWidth / circleWidth, circleWidth, circleWidth);
+                g.DrawEllipse(new Pen(Color.Red, 3), temp_.X - circleWidth, temp_.Y - circleWidth / circleWidth, circleWidth, circleWidth);
                 widthcnt++;
             }
 
-            Rectangle whiteRec = new Rectangle(rectangle.X,rectangle.Height - circleWidth, rectangle.Width, circleWidth);
+            Rectangle whiteRec = new Rectangle(rectangle.X, rectangle.Height - circleWidth, rectangle.Width, circleWidth);
             g.FillRectangle(new SolidBrush(Color.White), whiteRec);
             g.DrawRectangle(new Pen(Color.Red), rectangle);
 
-            g.DrawLine(new Pen(Color.Red,3), new Point(rectangle.X, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width/2,rectangle.Y + rectangle.Height));
-            g.DrawLine(new Pen(Color.Red,3), new Point(rectangle.X + rectangle.Width, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height));
+            g.DrawLine(new Pen(Color.Red, 3), new Point(rectangle.X, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height));
+            g.DrawLine(new Pen(Color.Red, 3), new Point(rectangle.X + rectangle.Width, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height));
         }
 
 
         private void btnMemo_click(object sender, EventArgs e)
         {
+            drawMode = DrawMode.cloudMarkText;
+
             InputMessageForm frm = new InputMessageForm();
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                string text = frm.Message;
-                using (Font font = new Font("Consolas", 12, FontStyle.Regular, GraphicsUnit.Point))
-                {
-                    Rectangle rect = new Rectangle(50, 50, 150, 150); 
-
-                    cloudMark.Drawing(g, rect, new Pen(Color.MediumAquamarine));
-                    
-                    g.DrawString(text, font, Brushes.Black, rect);
-                }
+                text = frm.Message;
+                //Rectangle rect = new Rectangle(50, 50, 150, 150);
+                //cloudMark.Drawing(g, rect, new Pen(Color.MediumAquamarine), text);
             }
         }
     }

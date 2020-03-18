@@ -12,7 +12,7 @@ namespace Paint
 {
     public partial class InputMessageForm : Form
     {
-        public string Message 
+        public string Message
         {
             get { return txtMessage.Text; }
             set { txtMessage.Text = value; }
@@ -30,7 +30,7 @@ namespace Paint
         private void InputMessageForm_Load(object sender, EventArgs e)
         {
             StartPosition = FormStartPosition.CenterScreen;
-            
+
         }
 
         private void btnOk_click(object sender, EventArgs e)
