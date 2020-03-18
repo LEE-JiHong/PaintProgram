@@ -27,6 +27,7 @@ namespace Paint
         Point CurPos= new Point();
 
         Rectangle rec;
+        CloudMark cloudMark;
         Pen p;
 
         //이전 데이터들을 담을 변수
@@ -35,6 +36,7 @@ namespace Paint
         List<Rectangle> circleSaveSData; //원
         List<CurveData> curveSaveData; //곡선
         List<DrawingData> drawingSaveData;
+        List<Rectangle> cloudMarkSaveData;//클라우드마크
 
         public Form1()
         {
@@ -55,6 +57,9 @@ namespace Paint
             circleSaveSData = new List<Rectangle>();
             curveSaveData = new List<CurveData>();
             drawingSaveData = new List<DrawingData>();
+            cloudMarkSaveData = new List<Rectangle>();
+
+            cloudMark = new CloudMark();
         }
         
         private void DrawAll()
@@ -90,6 +95,11 @@ namespace Paint
                 g.DrawEllipse(dd.pen, dd.point.X, dd.point.Y, dd.pen.Width, dd.pen.Width);
             }
 
+            foreach (Rectangle rec in cloudMarkSaveData)
+            {
+                cloudMark.Drawing(g, rec, new Pen(Color.Red));
+            }
+
             pictureBox1.Image = picBmp;
 
             switch (drawMode)
@@ -109,9 +119,8 @@ namespace Paint
                         g.DrawEllipse(new Pen(Color.Aquamarine), rec);
                     break;
                 case DrawMode.cloudMark: //클라우드마크
-                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
-                    CloudMark cm = new CloudMark();
-                    cm.Drawing(g, rec, new Pen(Color.Red));
+                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X-ClickPos.X, CurPos.Y-ClickPos.Y);
+                    cloudMark.Drawing(g, rec, new Pen(Color.Red));
                     break;
             }
         }
@@ -256,6 +265,7 @@ namespace Paint
                     break;
 
                 case DrawMode.cloudMark:
+                    cloudMarkSaveData.Add(rec);
                     break;
             }
 
@@ -338,6 +348,7 @@ namespace Paint
             circleSaveSData.Clear();
             curveSaveData.Clear();
             drawingSaveData.Clear();
+            cloudMarkSaveData.Clear();
 
             pictureBox1.Image = picBmp;
         }
@@ -369,50 +380,52 @@ namespace Paint
 
         private void simpleButton1_Click(object sender, EventArgs e)
         {
-            int startp = 70;
-            int middlep = 80;
-            int endp = 90;
+            //int startp = 70;
+            //int middlep = 80;
+            //int endp = 90;
 
-            for (int i = 0; i < 5; i++)
-            {
-                Pen pp = new Pen(Color.Red);
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    Pen pp = new Pen(Color.Red);
 
-                Point[] point = new Point[]
-                {
-                    new Point(startp,40),
-                    new Point(middlep, 33),
-                    new Point(endp,40)
-                };
+            //    Point[] point = new Point[]
+            //    {
+            //        new Point(startp,40),
+            //        new Point(middlep, 33),
+            //        new Point(endp,40)
+            //    };
 
-                g.DrawCurve(pp, point);
+            //    g.DrawCurve(pp, point);
 
-                Point[] pointunder = new Point[]
-                { 
-                    new Point(startp, 90),
-                    new Point(middlep, 97),
-                    new Point(endp, 90)
-                };
+            //    Point[] pointunder = new Point[]
+            //    { 
+            //        new Point(startp, 90),
+            //        new Point(middlep, 97),
+            //        new Point(endp, 90)
+            //    };
                 
-                g.DrawCurve(pp, pointunder);
+            //    g.DrawCurve(pp, pointunder);
 
-                Point[] pointleft = new Point[]
-                {
-                    new Point(70, 60),
-                    new Point(63, 50),
-                    new Point(70, 40)
-                };
+            //    Point[] pointleft = new Point[]
+            //    {
+            //        new Point(70, 60),
+            //        new Point(63, 50),
+            //        new Point(70, 40)
+            //    };
 
-                g.DrawCurve(pp, pointleft);
+            //    g.DrawCurve(pp, pointleft);
 
-                startp += 20;
-                middlep += 20;
-                endp += 20;
-            }
-            ////곡선 만들기
-            //g.DrawCurve(pp, point);
-            //g.DrawCurve(pp, point2);
+            //    startp += 20;
+            //    middlep += 20;
+            //    endp += 20;
+            //}
+            //////곡선 만들기
+            ////g.DrawCurve(pp, point);
+            ////g.DrawCurve(pp, point2);
 
-            pictureBox1.Image = picBmp;
+            //pictureBox1.Image = picBmp;
+
+            //g.DrawPolygon()
         }
 
         private void btnCloudMarkup_Click(object sender, EventArgs e)
@@ -436,9 +449,8 @@ namespace Paint
             }
 
             Rectangle whiteRec = new Rectangle(rectangle.X,rectangle.Height - circleWidth, rectangle.Width, circleWidth);
-             g.FillRectangle(new SolidBrush(Color.White), whiteRec);
-
-            //g.DrawRectangle(new Pen(Color.Red), rectangle);
+            g.FillRectangle(new SolidBrush(Color.White), whiteRec);
+            g.DrawRectangle(new Pen(Color.Red), rectangle);
 
             g.DrawLine(new Pen(Color.Red,3), new Point(rectangle.X, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width/2,rectangle.Y + rectangle.Height));
             g.DrawLine(new Pen(Color.Red,3), new Point(rectangle.X + rectangle.Width, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height));
@@ -448,8 +460,18 @@ namespace Paint
         private void btnMemo_click(object sender, EventArgs e)
         {
             InputMessageForm frm = new InputMessageForm();
-            frm.ShowDialog();
-        }
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                string text = frm.Message;
+                using (Font font = new Font("Consolas", 12, FontStyle.Regular, GraphicsUnit.Point))
+                {
+                    Rectangle rect = new Rectangle(50, 50, 150, 150); 
 
+                    cloudMark.Drawing(g, rect, new Pen(Color.MediumAquamarine));
+                    
+                    g.DrawString(text, font, Brushes.Black, rect);
+                }
+            }
+        }
     }
 }

@@ -12,16 +12,35 @@ namespace Paint
 {
     public partial class InputMessageForm : Form
     {
+        public string Message 
+        {
+            get { return txtMessage.Text; }
+            set { txtMessage.Text = value; }
+        }
+
         public InputMessageForm()
         {
             InitializeComponent();
 
-            this.Load += InputMessageForm_Load;
+            Load += InputMessageForm_Load;
+            btnOk.Click += new EventHandler(btnOk_click);
+            btnCancel.Click += new EventHandler(btnCancel_click);
         }
 
         private void InputMessageForm_Load(object sender, EventArgs e)
         {
             StartPosition = FormStartPosition.CenterScreen;
+            
+        }
+
+        private void btnOk_click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+        }
+
+        private void btnCancel_click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

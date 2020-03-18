@@ -36,13 +36,17 @@ namespace Paint
             this.pen = pen;
             this.rec = rec;
 
-            int circleWidh = rec.Width / 6;
-            int circleHeight = rec.Width / 6;
+            int circleWidh = rec.Width / 5;
+            int circleHeight = rec.Height / 5;
 
             int widthcnt = 1;
 
-            for (int i = rec.X; i <= rec.Width; i += circleWidh)
+            for (int i = 0; i < rec.Width; i += circleWidh)
             {
+                if (widthcnt > 5)
+                {
+                    break;
+                }
                 Point temp_ = new Point(rec.X + circleWidh * widthcnt * 1, rec.Y);
                 g.DrawEllipse(pen, temp_.X - circleWidh, temp_.Y - circleWidh / 2, circleWidh, circleWidh); //top
 
@@ -53,8 +57,12 @@ namespace Paint
 
             widthcnt = 1;
 
-            for (int i = rec.Y; i <= rec.Height; i += circleHeight)
+            for (int i = 0; i < rec.Height; i += circleHeight)
             {
+                if (widthcnt > 5)
+                {
+                    break;
+                }
                 Point temp_ = new Point(rec.X, rec.Y + circleHeight * widthcnt * 1);
                 g.DrawEllipse(pen, temp_.X - circleHeight / 2, temp_.Y - circleHeight, circleHeight, circleHeight);//left
 
@@ -62,7 +70,6 @@ namespace Paint
                 g.DrawEllipse(pen, temp_.X - circleHeight / 2, temp_.Y - circleHeight, circleHeight, circleHeight); //right
                 widthcnt++;
             }
-
             g.FillRectangle(new SolidBrush(Color.White), rec);
         }
     }
