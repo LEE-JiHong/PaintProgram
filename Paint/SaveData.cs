@@ -15,8 +15,7 @@ namespace Paint
         rect, //직사각형
         circle, //타원형
         curve, //곡선
-        cloudMark, //구름모양
-        cloudMarkText
+        cloudMark //구름모양
     }
 
     public class Shape
@@ -32,12 +31,13 @@ namespace Paint
 
     public class CloudMark : rectangle
     {
+        public string message { get; set; }
+
         public void Drawing(Graphics g, Rectangle rec, Pen pen, string message)
         {
             this.pen = pen;
             this.rec = rec;
-
-            string msg = message;
+            this.message = message;
 
             int circleWidh = rec.Width / 5;
             int circleHeight = rec.Height / 5;
@@ -76,7 +76,7 @@ namespace Paint
             g.FillRectangle(new SolidBrush(Color.White), rec);
 
             Font font = new Font("Consolas", 12, FontStyle.Regular, GraphicsUnit.Point);
-            g.DrawString(msg, font, Brushes.Black, rec);
+            g.DrawString(message, font, Brushes.Black, rec);
         }
     }
 

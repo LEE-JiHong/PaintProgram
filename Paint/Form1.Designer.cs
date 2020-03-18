@@ -49,8 +49,9 @@
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.btnHeart = new DevExpress.XtraEditors.SimpleButton();
             this.btnCloudMarkup = new DevExpress.XtraEditors.SimpleButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnMemo = new DevExpress.XtraEditors.SimpleButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnheart2 = new DevExpress.XtraEditors.SimpleButton();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -170,6 +171,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnHeart);
             this.flowLayoutPanel1.Controls.Add(this.btnCloudMarkup);
             this.flowLayoutPanel1.Controls.Add(this.btnMemo);
+            this.flowLayoutPanel1.Controls.Add(this.btnheart2);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -249,6 +251,14 @@
             this.btnCloudMarkup.Text = "cloud markup";
             this.btnCloudMarkup.Click += new System.EventHandler(this.btnCloudMarkup_Click);
             // 
+            // btnMemo
+            // 
+            this.btnMemo.Location = new System.Drawing.Point(680, 3);
+            this.btnMemo.Name = "btnMemo";
+            this.btnMemo.Size = new System.Drawing.Size(108, 22);
+            this.btnMemo.TabIndex = 11;
+            this.btnMemo.Text = "cloud markup 메모";
+            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
@@ -261,13 +271,13 @@
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
-            // btnMemo
+            // btnheart2
             // 
-            this.btnMemo.Location = new System.Drawing.Point(680, 3);
-            this.btnMemo.Name = "btnMemo";
-            this.btnMemo.Size = new System.Drawing.Size(108, 22);
-            this.btnMemo.TabIndex = 11;
-            this.btnMemo.Text = "cloud markup 메모";
+            this.btnheart2.Location = new System.Drawing.Point(794, 3);
+            this.btnheart2.Name = "btnheart2";
+            this.btnheart2.Size = new System.Drawing.Size(108, 22);
+            this.btnheart2.TabIndex = 12;
+            this.btnheart2.Text = "하트테스트";
             // 
             // Form1
             // 
@@ -318,6 +328,7 @@
         private DevExpress.XtraEditors.SimpleButton btnHeart;
         private DevExpress.XtraEditors.SimpleButton btnCloudMarkup;
         private DevExpress.XtraEditors.SimpleButton btnMemo;
+        private DevExpress.XtraEditors.SimpleButton btnheart2;
     }
 }
 

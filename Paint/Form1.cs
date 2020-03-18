@@ -36,7 +36,7 @@ namespace Paint
         List<Rectangle> circleSaveSData; //원
         List<CurveData> curveSaveData; //곡선
         List<DrawingData> drawingSaveData;
-        List<Rectangle> cloudMarkSaveData;//클라우드마크
+        List<CloudMark> cloudMarkSaveData;//클라우드마크
 
         string text = null;
 
@@ -47,7 +47,9 @@ namespace Paint
 
             picBmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             btnMemo.Click += new EventHandler(btnMemo_click);
+            btnheart2.Click += new EventHandler(btnheart2_click);
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -59,7 +61,7 @@ namespace Paint
             circleSaveSData = new List<Rectangle>();
             curveSaveData = new List<CurveData>();
             drawingSaveData = new List<DrawingData>();
-            cloudMarkSaveData = new List<Rectangle>();
+            cloudMarkSaveData = new List<CloudMark>();
 
             cloudMark = new CloudMark();
         }
@@ -77,7 +79,6 @@ namespace Paint
             {
                 if (pt.point != null)
                 {
-
                     pt.Drawing(g);
                 }
             }
@@ -97,9 +98,9 @@ namespace Paint
                 g.DrawEllipse(dd.pen, dd.point.X, dd.point.Y, dd.pen.Width, dd.pen.Width);
             }
 
-            foreach (Rectangle rec in cloudMarkSaveData)
+            foreach (CloudMark cm in cloudMarkSaveData)
             {
-                cloudMark.Drawing(g, rec, new Pen(Color.Red), "");
+                cloudMark.Drawing(g, cm.rec, new Pen(Color.Aquamarine), cm.message);
             }
 
             pictureBox1.Image = picBmp;
@@ -122,11 +123,15 @@ namespace Paint
                     break;
                 case DrawMode.cloudMark: //클라우드마크
                     rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
-                    cloudMark.Drawing(g, rec, new Pen(Color.Red), "");
-                    break;
-                case DrawMode.cloudMarkText:
-                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
-                    cloudMark.Drawing(g, rec, new Pen(Color.Red), text);
+
+                    if (text == "") //텍스트가 없을 경우
+                    {
+                        cloudMark.Drawing(g, rec, new Pen(Color.Aquamarine), "");
+                    }
+                    else //텍스트가 있을 경우
+                    {
+                        cloudMark.Drawing(g, rec, new Pen(Color.Aquamarine), text);
+                    }
                     break;
             }
         }
@@ -194,12 +199,6 @@ namespace Paint
                         break;
                     case DrawMode.cloudMark:
                         if (e.Button == MouseButtons.Left) //클라우드 마크 그리기
-                        {
-                            DrawAll();
-                        }
-                        break;
-                    case DrawMode.cloudMarkText:
-                        if (e.Button == MouseButtons.Left) //클라우드 메모 그리기
                         {
                             DrawAll();
                         }
@@ -277,10 +276,10 @@ namespace Paint
                     break;
 
                 case DrawMode.cloudMark:
-                    cloudMarkSaveData.Add(rec);
-                    break;
-                case DrawMode.cloudMarkText:
-                    //cloudMarkSaveData.Add(rec);
+                    CloudMark cm = new CloudMark();
+                    cm.message = text;
+                    cm.rec = rec;
+                    cloudMarkSaveData.Add(cm);
                     break;
             }
 
@@ -439,13 +438,12 @@ namespace Paint
             ////g.DrawCurve(pp, point2);
 
             //pictureBox1.Image = picBmp;
-
-            //g.DrawPolygon()
         }
 
         private void btnCloudMarkup_Click(object sender, EventArgs e)
         {
             drawMode = DrawMode.cloudMark;
+            text = ""; //text 초기화
         }
 
         private void btnHeart_Click(object sender, EventArgs e)
@@ -459,29 +457,41 @@ namespace Paint
             for (int i = rectangle.Y; i <= rectangle.Width; i += circleWidth)
             {
                 Point temp_ = new Point(rectangle.X + circleWidth * widthcnt * 1, rectangle.Y);
-                g.DrawEllipse(new Pen(Color.Red, 3), temp_.X - circleWidth, temp_.Y - circleWidth / circleWidth, circleWidth, circleWidth);
+                g.DrawEllipse(new Pen(Color.Aquamarine, 3), temp_.X - circleWidth, temp_.Y - circleWidth / circleWidth, circleWidth, circleWidth);
                 widthcnt++;
             }
 
             Rectangle whiteRec = new Rectangle(rectangle.X, rectangle.Height - circleWidth, rectangle.Width, circleWidth);
             g.FillRectangle(new SolidBrush(Color.White), whiteRec);
-            g.DrawRectangle(new Pen(Color.Red), rectangle);
+           // g.DrawRectangle(new Pen(Color.Aquamarine), rectangle);
 
             g.DrawLine(new Pen(Color.Red, 3), new Point(rectangle.X, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height));
             g.DrawLine(new Pen(Color.Red, 3), new Point(rectangle.X + rectangle.Width, rectangle.Height - circleWidth), new Point(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height));
         }
 
-
         private void btnMemo_click(object sender, EventArgs e)
         {
-            drawMode = DrawMode.cloudMarkText;
+            text = ""; //text 초기화
+            drawMode = DrawMode.cloudMark;
 
             InputMessageForm frm = new InputMessageForm();
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 text = frm.Message;
-                //Rectangle rect = new Rectangle(50, 50, 150, 150);
-                //cloudMark.Drawing(g, rect, new Pen(Color.MediumAquamarine), text);
+            }
+        }
+        private void btnheart2_click(object sender, EventArgs e)
+        {
+            //하트 만들기 테스트
+            Rectangle rectangle = new Rectangle(50, 50, 300, 300);
+
+            int circleWidth = rectangle.Width / 2;
+
+            for (int i = 0; i < rectangle.Width; i += circleWidth)
+            {
+                Point temp_ = new Point(rectangle.X, rectangle.Y);
+
+                g.DrawEllipse(new Pen(Color.Red), rectangle.X, rectangle.Y, circleWidth, circleWidth);
             }
         }
     }
