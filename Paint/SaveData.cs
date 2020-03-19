@@ -15,25 +15,45 @@ namespace Paint
         rect, //직사각형
         circle, //타원형
         curve, //곡선
-        cloudMark //구름모양
+        cloudMark, //구름모양
+        heart //하트모양
     }
 
-    public class Shape
+    public class DrawingData
     {
-        public Point point { get; set; }
+        public Point startPoint { get; set; }
+        public Point endPoint { get; set; }
         public Pen pen { get; set; }
+        public virtual void Drawing(Graphics g)
+        {
+            g.DrawLine(pen,startPoint, endPoint);
+        }
     }
 
-    public class rectangle : Shape
+    public class rectangle : DrawingData
     {
         public Rectangle rec { get; set; }
+
     }
 
+    public class CurveData : DrawingData
+    {
+        //곡선 포인트 저장하는 vo
+        public Point[] point { get; set; }
+        public override void Drawing(Graphics g)
+        {
+            g.DrawCurve(new Pen(Color.Aquamarine), point);
+        }
+    }
+
+    /// <summary>
+    /// 클라우드 마크
+    /// </summary>
     public class CloudMark : rectangle
     {
         public string message { get; set; }
 
-        public void Drawing(Graphics g, Rectangle rec, Pen pen, string message)
+        public virtual void Drawing(Graphics g, Rectangle rec, Pen pen, string message)
         {
             this.pen = pen;
             this.rec = rec;
@@ -80,28 +100,37 @@ namespace Paint
         }
     }
 
-    public class SaveData
+    /// <summary>
+    /// 하트
+    /// </summary>
+    public class Heart : CloudMark
     {
-        //포인트 저장하는 vo
-        public Point startPoint { get; set; }
-        public Point endPoint { get; set; }
-    }
-
-    public class CurveData : SaveData
-    {
-        //곡선 포인트 저장하는 vo
-        public Point[] point { get; set; }
-        public void Drawing(Graphics g)
+        public override void Drawing(Graphics g, Rectangle rec, Pen pen, string message)
         {
-            g.DrawCurve(new Pen(Color.Aquamarine), point);
+            this.pen = pen;
+            this.rec = rec;
+            this.message = message;
+
+            //Rectangle rectangle = new Rectangle(100, 50, 400, 400);
+            int circleWidth = rec.Width / 2;
+
+            int widthcnt = 1;
+
+            for (int i = rec.Y; i <= rec.Width; i += circleWidth)
+            {
+                Point temp_ = new Point(rec.X + circleWidth * widthcnt * 1, rec.Y);
+                g.DrawEllipse(new Pen(Color.Aquamarine, 3), temp_.X - circleWidth, temp_.Y - circleWidth / circleWidth, circleWidth, circleWidth);
+                widthcnt++;
+            }
+
+            Rectangle whiteRec = new Rectangle(rec.X, rec.Y + circleWidth / 2, rec.Width, circleWidth);
+            g.FillRectangle(new SolidBrush(Color.White), whiteRec);
+
+            g.DrawLine(new Pen(Color.Aquamarine, 3), new Point(rec.X, rec.Y + circleWidth / 2), new Point(rec.X + rec.Width / 2, rec.Y + rec.Height));
+            g.DrawLine(new Pen(Color.Aquamarine, 3), new Point(rec.X + rec.Width, rec.Y + circleWidth / 2), new Point(rec.X + rec.Width / 2, rec.Y + rec.Height));
+
+            Font font = new Font("Consolas", 12, FontStyle.Regular, GraphicsUnit.Point);
+            g.DrawString(message, font, Brushes.Black, whiteRec);
         }
     }
-
-    public class DrawingData
-    {
-        public Pen pen { get; set; }
-        public Point point { get; set; }
-    }
-
-
 }
