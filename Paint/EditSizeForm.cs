@@ -14,6 +14,9 @@ namespace Paint
     {
         PictureBox pic;
 
+        int perWidth;
+        int perHeight;
+
         public int width
         {
             get { return Convert.ToInt32(txtwidth.Text); }
@@ -27,6 +30,9 @@ namespace Paint
         {
             InitializeComponent();
             this.pic = pic;
+            rdoPix.Click += new EventHandler(RdoPix_click);
+            rdoPer.Click += new EventHandler(RdoPer_click);
+            /////////txtwidth.EditValueChanged += //이 부분
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -34,11 +40,18 @@ namespace Paint
             this.Close();
         }
 
+        private void SetRdoPer()
+        {
+            txtwidth.Text = "100";
+            txtheight.Text = "100";
+            perWidth = Convert.ToInt32(txtwidth.Text);
+            perHeight = Convert.ToInt32(txtheight.Text);
+        }
+
         private void EditSizeForm_Load(object sender, EventArgs e)
         {
-            rdoPix.Checked = true;
-            txtwidth.Text =  pic.Width.ToString();
-            txtheight.Text = pic.Height.ToString();
+            rdoPer.Checked = true;
+            SetRdoPer();
             btnOK.TabIndex = 0;
         }
 
@@ -60,6 +73,22 @@ namespace Paint
             if (e.KeyChar == (char)13)
             {
                 this.btnOK_Click(sender, e);
+            }
+        }
+        private void RdoPix_click(object sender, EventArgs e)
+        {
+            if (rdoPix.Checked)
+            {
+                //txtwidth.Text = pic.Width * (txtwidth.Text/100)
+                //txtwidth.Text =  pic.Width.ToString();
+                //txtheight.Text = pic.Height.ToString();
+            }
+        }
+        private void RdoPer_click(object sender, EventArgs e)
+        {
+            if (rdoPer.Checked)
+            {
+                SetRdoPer();
             }
         }
     }

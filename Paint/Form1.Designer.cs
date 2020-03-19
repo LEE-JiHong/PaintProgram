@@ -41,16 +41,17 @@
             this.EraBold = new System.Windows.Forms.ToolStripMenuItem();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnClear = new DevExpress.XtraEditors.SimpleButton();
             this.btnLine = new DevExpress.XtraEditors.SimpleButton();
             this.btnCurve = new DevExpress.XtraEditors.SimpleButton();
             this.btnCircle = new DevExpress.XtraEditors.SimpleButton();
             this.btnRec = new DevExpress.XtraEditors.SimpleButton();
-            this.btnClear = new DevExpress.XtraEditors.SimpleButton();
             this.btnHeart = new DevExpress.XtraEditors.SimpleButton();
+            this.btnHeartMemo = new DevExpress.XtraEditors.SimpleButton();
             this.btnCloudMarkup = new DevExpress.XtraEditors.SimpleButton();
             this.btnMemo = new DevExpress.XtraEditors.SimpleButton();
-            this.btnHeartMemo = new DevExpress.XtraEditors.SimpleButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnSave = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -74,6 +75,8 @@
             // 
             // 파일ToolStripMenuItem
             // 
+            this.파일ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSave});
             this.파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
             this.파일ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.파일ToolStripMenuItem.Text = "파일";
@@ -176,6 +179,15 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(959, 28);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(3, 3);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(74, 22);
+            this.btnClear.TabIndex = 7;
+            this.btnClear.Text = "전체 지우기";
+            this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
+            // 
             // btnLine
             // 
             this.btnLine.Location = new System.Drawing.Point(83, 3);
@@ -212,27 +224,26 @@
             this.btnRec.Text = "직사각형";
             this.btnRec.Click += new System.EventHandler(this.BtnRec_Click);
             // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(3, 3);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(74, 22);
-            this.btnClear.TabIndex = 7;
-            this.btnClear.Text = "전체 지우기";
-            this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
-            // 
             // btnHeart
             // 
             this.btnHeart.Location = new System.Drawing.Point(339, 3);
             this.btnHeart.Name = "btnHeart";
-            this.btnHeart.Size = new System.Drawing.Size(63, 22);
+            this.btnHeart.Size = new System.Drawing.Size(46, 22);
             this.btnHeart.TabIndex = 9;
-            this.btnHeart.Text = "하트모양";
+            this.btnHeart.Text = "하트";
             this.btnHeart.Click += new System.EventHandler(this.BtnHeart_Click);
+            // 
+            // btnHeartMemo
+            // 
+            this.btnHeartMemo.Location = new System.Drawing.Point(391, 3);
+            this.btnHeartMemo.Name = "btnHeartMemo";
+            this.btnHeartMemo.Size = new System.Drawing.Size(57, 22);
+            this.btnHeartMemo.TabIndex = 12;
+            this.btnHeartMemo.Text = "하트 메모";
             // 
             // btnCloudMarkup
             // 
-            this.btnCloudMarkup.Location = new System.Drawing.Point(471, 3);
+            this.btnCloudMarkup.Location = new System.Drawing.Point(454, 3);
             this.btnCloudMarkup.Name = "btnCloudMarkup";
             this.btnCloudMarkup.Size = new System.Drawing.Size(87, 22);
             this.btnCloudMarkup.TabIndex = 10;
@@ -241,19 +252,11 @@
             // 
             // btnMemo
             // 
-            this.btnMemo.Location = new System.Drawing.Point(564, 3);
+            this.btnMemo.Location = new System.Drawing.Point(547, 3);
             this.btnMemo.Name = "btnMemo";
             this.btnMemo.Size = new System.Drawing.Size(108, 22);
             this.btnMemo.TabIndex = 11;
             this.btnMemo.Text = "cloud markup 메모";
-            // 
-            // btnHeartMemo
-            // 
-            this.btnHeartMemo.Location = new System.Drawing.Point(408, 3);
-            this.btnHeartMemo.Name = "btnHeartMemo";
-            this.btnHeartMemo.Size = new System.Drawing.Size(57, 22);
-            this.btnHeartMemo.TabIndex = 12;
-            this.btnHeartMemo.Text = "하트 메모";
             // 
             // pictureBox1
             // 
@@ -266,6 +269,12 @@
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox1_MouseUp);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(180, 22);
+            this.btnSave.Text = "저장";
             // 
             // Form1
             // 
@@ -316,6 +325,7 @@
         private DevExpress.XtraEditors.SimpleButton btnCloudMarkup;
         private DevExpress.XtraEditors.SimpleButton btnMemo;
         private DevExpress.XtraEditors.SimpleButton btnHeartMemo;
+        private System.Windows.Forms.ToolStripMenuItem btnSave;
     }
 }
 

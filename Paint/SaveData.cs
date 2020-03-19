@@ -127,7 +127,7 @@ namespace Paint
             int circleWidth = rec.Width / 2;
 
             int widthcnt = 1;
-
+            
             for (int i = rec.Y; i <= rec.Width; i += circleWidth)
             {
                 Point temp_ = new Point(rec.X + circleWidth * widthcnt * 1, rec.Y);
@@ -135,7 +135,7 @@ namespace Paint
                 widthcnt++;
             }
 
-            Rectangle whiteRec = new Rectangle(rec.X-10, rec.Y + circleWidth / 2, rec.Width+100, circleWidth);
+            Rectangle whiteRec = new Rectangle(rec.X-10, rec.Y + circleWidth / 2, rec.Width+50, circleWidth);
             g.FillRectangle(new SolidBrush(Color.White), whiteRec);
 
             g.DrawLine(new Pen(Color.Aquamarine, 3), new Point(rec.X, rec.Y + circleWidth / 2), new Point(rec.X + rec.Width / 2, rec.Y + rec.Height));

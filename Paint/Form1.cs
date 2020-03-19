@@ -52,6 +52,7 @@ namespace Paint
             picBmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             btnMemo.Click += new EventHandler(BtnMemo_click);
             btnHeartMemo.Click += new EventHandler(BtnHeartMemo_click);
+            btnSave.Click += new EventHandler(BtnSave_click);
         }
 
 
@@ -83,9 +84,7 @@ namespace Paint
             {
                 if (pt.point != null)
                 {
-
                     pt.Drawing(g);
-                    
                 }
             }
 
@@ -116,6 +115,12 @@ namespace Paint
 
             pictureBox1.Image = picBmp;
 
+            //직사각형, cloudMark에 사용하기 위해 ClickPos, CurPos 포인트를 담는 변수
+            int clickpos_X = ClickPos.X;
+            int curpos_x = CurPos.X;
+            int clickpos_y = ClickPos.Y;
+            int curpos_y = CurPos.Y;
+
             switch (drawMode)
             {
                 case DrawMode.line: //선 그리기
@@ -127,11 +132,6 @@ namespace Paint
                     break;
                 
                 case DrawMode.rect: //직사각형 그리기
-                    int clickpos_X = ClickPos.X;
-                    int curpos_x = CurPos.X;
-                    int clickpos_y = ClickPos.Y;
-                    int curpos_y = CurPos.Y;
-
                     if (ClickPos.X > CurPos.X) //left가 right보다 클 경우
                     {
                         Swap(ref clickpos_X, ref curpos_x);
@@ -152,11 +152,6 @@ namespace Paint
                     break;
                 
                 case DrawMode.cloudMark: //클라우드마크
-                    clickpos_X = ClickPos.X;
-                    curpos_x = CurPos.X;
-                    clickpos_y = ClickPos.Y;
-                    curpos_y = CurPos.Y;
-
                     if (ClickPos.X > CurPos.X)
                     {
                         Swap(ref clickpos_X, ref curpos_x);
@@ -228,6 +223,7 @@ namespace Paint
                         dd.startPoint = CurPos;
                         drawingSaveData.Add(dd);
                         break;
+
                     case DrawMode.line: //선 그리기
                         if (e.Button == MouseButtons.Left)
                         {
@@ -256,12 +252,14 @@ namespace Paint
                             DrawAll();
                         }
                         break;
+
                     case DrawMode.cloudMark:
                         if (e.Button == MouseButtons.Left) //클라우드 마크 그리기
                         {
                             DrawAll();
                         }
                         break;
+
                     case DrawMode.heart:
                         if (e.Button == MouseButtons.Left) //하트 그리기
                         {
@@ -333,6 +331,7 @@ namespace Paint
                     curveSaveData.Add(cd);
                     curveFlag1 = true;
                     break;
+
                 case DrawMode.rect:
                     recSaveData.Add(rec);
                     break;
@@ -347,6 +346,7 @@ namespace Paint
                     cm.rec = rec;
                     cloudMarkSaveData.Add(cm);
                     break;
+
                 case DrawMode.heart:
                     Heart heart = new Heart();
                     heart.message = text;
@@ -506,7 +506,23 @@ namespace Paint
                 text = frm.Message;
             }
         }
-    
+
+        private void BtnSave_click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+
+            saveFile.DefaultExt = "jpg";
+            saveFile.InitialDirectory = @"C:";
+            saveFile.Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif|Png Image|*.png";
+            saveFile.Title = "Save an Image File";
+
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = saveFile.FileName;
+                picBmp.Save(@fileName);
+            }
+        }
+
         /// <summary>
         /// Swap 함수
         /// </summary>
