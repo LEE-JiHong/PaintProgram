@@ -23,9 +23,9 @@ namespace Paint
             InitializeComponent();
 
             Load += InputMessageForm_Load;
-            btnOk.Click += new EventHandler(btnOk_click);
-            btnCancel.Click += new EventHandler(btnCancel_click);
-            txtMessage.KeyPress += txtMessage_Keypress;
+            btnOk.Click += new EventHandler(BtnOk_click);
+            btnCancel.Click += new EventHandler(BtnCancel_click);
+            txtMessage.KeyPress += TxtMessage_Keypress;
         }
 
         private void InputMessageForm_Load(object sender, EventArgs e)
@@ -34,17 +34,17 @@ namespace Paint
 
         }
 
-        private void btnOk_click(object sender, EventArgs e)
+        private void BtnOk_click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
 
-        private void btnCancel_click(object sender, EventArgs e)
+        private void BtnCancel_click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void txtMessage_Keypress(object sender, KeyPressEventArgs e)
+        private void TxtMessage_Keypress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)13)
             {

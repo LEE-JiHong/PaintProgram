@@ -183,7 +183,7 @@
             this.btnLine.Size = new System.Drawing.Size(58, 22);
             this.btnLine.TabIndex = 2;
             this.btnLine.Text = "선";
-            this.btnLine.Click += new System.EventHandler(this.btnLine_Click);
+            this.btnLine.Click += new System.EventHandler(this.BtnLine_Click);
             // 
             // btnCurve
             // 
@@ -192,7 +192,7 @@
             this.btnCurve.Size = new System.Drawing.Size(58, 22);
             this.btnCurve.TabIndex = 3;
             this.btnCurve.Text = "곡선";
-            this.btnCurve.Click += new System.EventHandler(this.btnCurve_Click);
+            this.btnCurve.Click += new System.EventHandler(this.BtnCurve_Click);
             // 
             // btnCircle
             // 
@@ -201,7 +201,7 @@
             this.btnCircle.Size = new System.Drawing.Size(58, 22);
             this.btnCircle.TabIndex = 4;
             this.btnCircle.Text = "타원";
-            this.btnCircle.Click += new System.EventHandler(this.btnCircle_Click);
+            this.btnCircle.Click += new System.EventHandler(this.BtnCircle_Click);
             // 
             // btnRec
             // 
@@ -210,7 +210,7 @@
             this.btnRec.Size = new System.Drawing.Size(58, 22);
             this.btnRec.TabIndex = 5;
             this.btnRec.Text = "직사각형";
-            this.btnRec.Click += new System.EventHandler(this.btnRec_Click);
+            this.btnRec.Click += new System.EventHandler(this.BtnRec_Click);
             // 
             // btnClear
             // 
@@ -219,7 +219,7 @@
             this.btnClear.Size = new System.Drawing.Size(74, 22);
             this.btnClear.TabIndex = 7;
             this.btnClear.Text = "전체 지우기";
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
             // 
             // btnHeart
             // 
@@ -228,7 +228,7 @@
             this.btnHeart.Size = new System.Drawing.Size(63, 22);
             this.btnHeart.TabIndex = 9;
             this.btnHeart.Text = "하트모양";
-            this.btnHeart.Click += new System.EventHandler(this.btnHeart_Click);
+            this.btnHeart.Click += new System.EventHandler(this.BtnHeart_Click);
             // 
             // btnCloudMarkup
             // 
@@ -237,7 +237,7 @@
             this.btnCloudMarkup.Size = new System.Drawing.Size(87, 22);
             this.btnCloudMarkup.TabIndex = 10;
             this.btnCloudMarkup.Text = "cloud markup";
-            this.btnCloudMarkup.Click += new System.EventHandler(this.btnCloudMarkup_Click);
+            this.btnCloudMarkup.Click += new System.EventHandler(this.BtnCloudMarkup_Click);
             // 
             // btnMemo
             // 
@@ -263,9 +263,9 @@
             this.pictureBox1.Size = new System.Drawing.Size(873, 511);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBox1_MouseDown);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox1_MouseUp);
             // 
             // Form1
             // 

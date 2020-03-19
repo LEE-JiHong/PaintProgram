@@ -20,6 +20,8 @@ namespace Paint
         Bitmap picBmp;
 
         bool flag = false;
+
+        //곡선에 쓸 flag변수
         bool curveFlag1 = false;
         bool curveFlag2 = false;
 
@@ -38,6 +40,7 @@ namespace Paint
         List<CurveData> curveSaveData; //곡선
         List<DrawingData> drawingSaveData;
         List<CloudMark> cloudMarkSaveData;//클라우드마크
+        List<Heart> heartSaveData; //하트
 
         string text = null;
 
@@ -47,8 +50,8 @@ namespace Paint
             this.Load += Form1_Load;
 
             picBmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            btnMemo.Click += new EventHandler(btnMemo_click);
-            btnHeartMemo.Click += new EventHandler(btnHeartMemo_click);
+            btnMemo.Click += new EventHandler(BtnMemo_click);
+            btnHeartMemo.Click += new EventHandler(BtnHeartMemo_click);
         }
 
 
@@ -63,7 +66,7 @@ namespace Paint
             curveSaveData = new List<CurveData>();
             drawingSaveData = new List<DrawingData>();
             cloudMarkSaveData = new List<CloudMark>();
-
+            heartSaveData = new List<Heart>();
             cloudMark = new CloudMark();
         }
 
@@ -106,6 +109,11 @@ namespace Paint
                 cloudMark.Drawing(g, cm.rec, new Pen(Color.Aquamarine), cm.message);
             }
 
+            foreach (Heart heart in heartSaveData)
+            {
+                heart.Drawing(g, heart.rec, new Pen(Color.Aquamarine), heart.message);
+            }
+
             pictureBox1.Image = picBmp;
 
             switch (drawMode)
@@ -113,19 +121,52 @@ namespace Paint
                 case DrawMode.line: //선 그리기
                     g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
                     break;
+
                 case DrawMode.curve: //곡선 그리기
                     g.DrawLine(new Pen(Color.Aquamarine), ClickPos, CurPos);
                     break;
+                
                 case DrawMode.rect: //직사각형 그리기
-                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
+                    int clickpos_X = ClickPos.X;
+                    int curpos_x = CurPos.X;
+                    int clickpos_y = ClickPos.Y;
+                    int curpos_y = CurPos.Y;
+
+                    if (ClickPos.X > CurPos.X) //left가 right보다 클 경우
+                    {
+                        Swap(ref clickpos_X, ref curpos_x);
+                    }
+
+                    if (ClickPos.Y > CurPos.Y) //top이 bottom보다 클 경우
+                    {
+                        Swap(ref clickpos_y, ref curpos_y);
+                    }
+                    
+                    rec = new Rectangle(clickpos_X, clickpos_y, curpos_x - clickpos_X, curpos_y - clickpos_y);
                     g.DrawRectangle(new Pen(Color.Aquamarine), rec);
                     break;
+                
                 case DrawMode.circle: //타원형 그리기
                     rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
                     g.DrawEllipse(new Pen(Color.Aquamarine), rec);
                     break;
+                
                 case DrawMode.cloudMark: //클라우드마크
-                    rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
+                    clickpos_X = ClickPos.X;
+                    curpos_x = CurPos.X;
+                    clickpos_y = ClickPos.Y;
+                    curpos_y = CurPos.Y;
+
+                    if (ClickPos.X > CurPos.X)
+                    {
+                        Swap(ref clickpos_X, ref curpos_x);
+                    }
+
+                    if (ClickPos.Y > CurPos.Y)
+                    {
+                        Swap(ref clickpos_y, ref curpos_y);
+                    }
+                    rec = new Rectangle(clickpos_X, clickpos_y, curpos_x - clickpos_X, curpos_y - clickpos_y);
 
                     if (text == "") //텍스트가 없을 경우
                     {
@@ -136,6 +177,7 @@ namespace Paint
                         cloudMark.Drawing(g, rec, new Pen(Color.Aquamarine), text);
                     }
                     break;
+                
                 case DrawMode.heart: //하트
                     Heart heart = new Heart();
                     rec = new Rectangle(ClickPos.X, ClickPos.Y, CurPos.X - ClickPos.X, CurPos.Y - ClickPos.Y);
@@ -152,7 +194,7 @@ namespace Paint
             }
         }
 
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        private void PictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             Color color;
 
@@ -230,7 +272,7 @@ namespace Paint
             }
         }
 
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        private void PictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             flag = true;
 
@@ -263,7 +305,7 @@ namespace Paint
             }
         }
 
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        private void PictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             flag = false;
             
@@ -304,6 +346,12 @@ namespace Paint
                     cm.message = text;
                     cm.rec = rec;
                     cloudMarkSaveData.Add(cm);
+                    break;
+                case DrawMode.heart:
+                    Heart heart = new Heart();
+                    heart.message = text;
+                    heart.rec = rec;
+                    heartSaveData.Add(heart);
                     break;
             }
 
@@ -356,7 +404,6 @@ namespace Paint
 
         #endregion
 
-
         public void SetPenOrEraser(int curLineSize, DrawMode drawMode)
         {
             //펜 굵기 설정
@@ -364,21 +411,23 @@ namespace Paint
             this.drawMode = drawMode;
         }
 
-        private void btnLine_Click(object sender, EventArgs e)
+        private void BtnLine_Click(object sender, EventArgs e)
         {
             //선 버튼 클릭
             drawMode = DrawMode.line;
         }
 
-        private void btnRec_Click(object sender, EventArgs e)
+        private void BtnRec_Click(object sender, EventArgs e)
         {
             //직사각형 버튼 클릭
             drawMode = DrawMode.rect;
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 전체 지우기
+        /// </summary>
+        private void BtnClear_Click(object sender, EventArgs e)
         {
-            //전체 지우기
             g.Clear(Color.White);
 
             lineSaveData.Clear();
@@ -387,19 +436,24 @@ namespace Paint
             curveSaveData.Clear();
             drawingSaveData.Clear();
             cloudMarkSaveData.Clear();
+            heartSaveData.Clear();
 
             pictureBox1.Image = picBmp;
         }
 
-        private void btnCircle_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 타원형 버튼 클릭
+        /// </summary>
+        private void BtnCircle_Click(object sender, EventArgs e)
         {
-            //타원형 버튼 클릭
             drawMode = DrawMode.circle;
         }
 
-        private void btnCurve_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 곡선 버튼 클릭
+        /// </summary>
+        private void BtnCurve_Click(object sender, EventArgs e)
         {
-            //곡선 버튼 클릭
             drawMode = DrawMode.curve;
         }
 
@@ -416,19 +470,21 @@ namespace Paint
             }
         }
 
-        private void btnCloudMarkup_Click(object sender, EventArgs e)
+        private void BtnCloudMarkup_Click(object sender, EventArgs e)
         {
             drawMode = DrawMode.cloudMark;
             text = ""; //text 초기화
         }
 
-        private void btnHeart_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 하트 버튼 클릭
+        /// </summary>
+        private void BtnHeart_Click(object sender, EventArgs e)
         {
-            //하트모양
             drawMode = DrawMode.heart;
         }
 
-        private void btnMemo_click(object sender, EventArgs e)
+        private void BtnMemo_click(object sender, EventArgs e)
         {
             text = ""; //text 초기화
             drawMode = DrawMode.cloudMark;
@@ -439,7 +495,7 @@ namespace Paint
                 text = frm.Message;
             }
         }
-        private void btnHeartMemo_click(object sender, EventArgs e)
+        private void BtnHeartMemo_click(object sender, EventArgs e)
         {
             text = ""; //text 초기화
             drawMode = DrawMode.heart;
@@ -449,6 +505,18 @@ namespace Paint
             {
                 text = frm.Message;
             }
+        }
+    
+        /// <summary>
+        /// Swap 함수
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        private void Swap(ref int p1, ref int p2)
+        {
+            int temp = p2;
+            p2 = p1;
+            p1 = temp;
         }
     }
 }

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Paint
 {
+    /// <summary>
+    /// 그리기 모드 enum
+    /// </summary>
     public enum DrawMode
     {
         penMode, //펜
@@ -30,12 +33,18 @@ namespace Paint
         }
     }
 
+    /// <summary>
+    /// 직사각형, 원
+    /// </summary>
     public class rectangle : DrawingData
     {
         public Rectangle rec { get; set; }
 
     }
 
+    /// <summary>
+    /// 곡선
+    /// </summary>
     public class CurveData : DrawingData
     {
         //곡선 포인트 저장하는 vo
@@ -96,7 +105,11 @@ namespace Paint
             g.FillRectangle(new SolidBrush(Color.White), rec);
 
             Font font = new Font("Consolas", 12, FontStyle.Regular, GraphicsUnit.Point);
-            g.DrawString(message, font, Brushes.Black, rec);
+
+            StringFormat drawformat = new StringFormat();
+            drawformat.Alignment = StringAlignment.Center;
+
+            g.DrawString(message, font, Brushes.Black, rec, drawformat);
         }
     }
 
@@ -111,7 +124,6 @@ namespace Paint
             this.rec = rec;
             this.message = message;
 
-            //Rectangle rectangle = new Rectangle(100, 50, 400, 400);
             int circleWidth = rec.Width / 2;
 
             int widthcnt = 1;
@@ -123,13 +135,17 @@ namespace Paint
                 widthcnt++;
             }
 
-            Rectangle whiteRec = new Rectangle(rec.X, rec.Y + circleWidth / 2, rec.Width, circleWidth);
+            Rectangle whiteRec = new Rectangle(rec.X-10, rec.Y + circleWidth / 2, rec.Width+100, circleWidth);
             g.FillRectangle(new SolidBrush(Color.White), whiteRec);
 
             g.DrawLine(new Pen(Color.Aquamarine, 3), new Point(rec.X, rec.Y + circleWidth / 2), new Point(rec.X + rec.Width / 2, rec.Y + rec.Height));
             g.DrawLine(new Pen(Color.Aquamarine, 3), new Point(rec.X + rec.Width, rec.Y + circleWidth / 2), new Point(rec.X + rec.Width / 2, rec.Y + rec.Height));
 
             Font font = new Font("Consolas", 12, FontStyle.Regular, GraphicsUnit.Point);
+
+            StringFormat drawformat = new StringFormat();
+            drawformat.Alignment = StringAlignment.Center;
+
             g.DrawString(message, font, Brushes.Black, whiteRec);
         }
     }
